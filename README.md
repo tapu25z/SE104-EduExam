@@ -1,191 +1,131 @@
-# HỆ THỐNG QUẢN LÝ VIỆC RA ĐỀ VÀ CHẤM THI CỦA GIẢNG VIÊN (EduExam)
-### Đồ án môn học: Nhập môn Công nghệ Phần mềm (SE104.R13)
-### Nhóm 30 - Trường Đại học Công nghệ Thông tin (UIT - ĐHQG-HCM)
+# EduExam - Hệ thống Quản lý Ra đề & Chấm thi Giảng viên
+
+Đồ án môn học: **Nhập môn Công nghệ Phần mềm (SE104.R13)**  
+Khoa Kỹ thuật Phần mềm, Trường Đại học Công nghệ Thông tin - ĐHQG-HCM  
+Giảng viên hướng dẫn: **TS. Nguyễn Thị Thu Hương**
 
 ---
 
-## 👥 THÔNG TIN NHÓM THỰC HIỆN
-* **Giảng viên hướng dẫn:** TS. Nguyễn Thị Thu Hương
+## 1. Giới thiệu
+
+EduExam là hệ thống web hỗ trợ giảng viên trong công tác quản lý khảo thí nội bộ bộ môn, bao gồm việc quản lý ngân hàng câu hỏi, biên soạn đề thi chuẩn hóa, ghi nhận kết quả chấm thi theo lớp học và tổng hợp báo cáo khảo thí định kỳ.
+
+Hệ thống được thiết kế theo mô hình kiến trúc 3 lớp (3-tier architecture), đáp ứng đầy đủ các yêu cầu nghiệp vụ và quy định ràng buộc được đặc tả trong Báo cáo Đồ án Stage 1 của Nhóm 30.
+
+## 2. Thông tin nhóm thực hiện
+
 * **Lớp sinh hoạt:** SE104.R13
-* **Nhóm:** Nhóm 30
+* **Nhóm:** 30
 * **Thành viên:**
-  1. **Bùi Huỳnh Tây** - MSSV: `24521589`
-  2. **Phạm Ngọc Phú Thịnh** - MSSV: `24521703`
-  3. **Lê Quang Huy** - MSSV: `24520669`
+  * Bùi Huỳnh Tây - MSSV: 24521589
+  * Phạm Ngọc Phú Thịnh - MSSV: 24521703
+  * Lê Quang Huy - MSSV: 24520669
 
----
+## 3. Công nghệ sử dụng
 
-## 🚀 HƯỚNG DẪN KHỞI CHẠY (CHỈ 1 BƯỚC)
+* **Frontend:** HTML5, Tailwind CSS, Vanilla JavaScript, Chart.js
+* **Backend:** Node.js, Express.js (RESTful API)
+* **Database:** SQLite3
+* **Kiến trúc:** 3-Tier Architecture (Presentation, Business Logic, Data Access)
 
-Hệ thống được thiết kế theo tiêu chí **End-to-End, đơn giản và dễ sử dụng**, sử dụng CSDL SQLite không cần cài đặt thêm MySQL hay SQL Server phức tạp.
+## 4. Hướng dẫn cài đặt và khởi chạy
 
-### Bước 1: Mở terminal tại thư mục dự án và chạy:
+### Yêu cầu môi trường
+* Node.js (phiên bản 16.x trở lên)
+* npm (đi kèm với Node.js)
+
+### Các bước thực hiện
+
+1. Clone repository về máy:
+```bash
+git clone https://github.com/tapu25z/SE104-EduExam.git
+cd SE104-EduExam
+```
+
+2. Cài đặt các gói phụ thuộc:
+```bash
+npm install
+```
+
+3. Khởi động server:
 ```bash
 npm start
 ```
 
-### Bước 2: Mở trình duyệt web và truy cập:
-👉 **[http://localhost:3000](http://localhost:3000)**
+4. Truy cập hệ thống trên trình duyệt:
+```
+http://localhost:3000
+```
 
-Hệ thống đã tự động tạo CSDL `database.sqlite` và nạp sẵn bộ dữ liệu mẫu đầy đủ (4 môn học, các câu hỏi theo 4 độ khó, đề thi, danh sách sinh viên nhóm 30 và bảng điểm) để sẵn sàng demo ngay lập tức!
+> **Lưu ý:** Khi khởi động lần đầu, hệ thống sẽ tự động khởi tạo cơ sở dữ liệu SQLite (`database/database.sqlite`) và nạp sẵn bộ dữ liệu mẫu phục vụ kiểm thử.
 
----
+## 5. Danh mục chức năng và Ràng buộc nghiệp vụ
 
-## 🎨 ĐẶC ĐIỂM THIẾT KẾ GIAO DIỆN HIỆN ĐẠI (EDTECH SAAS)
+### 5.1. Bảng đối chiếu Use Case và Biểu mẫu
 
-1. **Thiết kế tối giản, ít chữ, nhiều hình đồ họa trực quan:**
-   - Sử dụng đồ họa vector sắc nét (Hero Banner, linh vật môn học `IT001`, `IT002`, `IT003`, `SE104`, hình minh họa ngân hàng câu hỏi, đề thi và bảng điểm).
-   - Sidebar trái hiện đại, điều hướng mượt mà, hỗ trợ chế độ xem **Thẻ (Card)** và **Bảng (Table)**.
-   - Thang điểm chữ A, B, C, D, E, F hiển thị dạng huy hiệu màu sắc nổi bật với bóng đổ mềm.
+| STT | Use Case | Biểu mẫu | Quy định | Mô tả xử lý | Module phụ trách |
+| :---: | :--- | :---: | :---: | :--- | :--- |
+| 1 | **UC01: Soạn câu hỏi** | BM1 | QĐ1 | Quản lý ngân hàng câu hỏi theo môn học và độ khó. Bảo toàn câu hỏi đã thuộc đề thi. | `routes/cauHoi.js` |
+| 2 | **UC02: Soạn đề thi** | BM2 | QĐ2 | Lập đề thi chuẩn hóa, giới hạn 1–5 câu cùng môn, thời lượng 30–180 phút. Bảo toàn đề đã có bài chấm. | `routes/deThi.js` |
+| 3 | **UC03: Ghi nhận chấm thi** | BM3 | QĐ3 | Nhập điểm theo lớp, kiểm tra bước điểm 0.5, tự động quy đổi thang điểm chữ A–F. | `routes/chamThi.js` |
+| 4 | **UC04: Tra cứu đề thi** | BM4 | - | Tra cứu đa tiêu chí, xem trước và in đề thi theo biểu mẫu chuẩn kết thúc học phần. | `routes/deThi.js` |
+| 5 | **UC05: Lập báo cáo năm** | BM5 | - | Tổng hợp số lượng đề thi và bài chấm theo môn, tính tỷ lệ theo công thức (1.1) và (1.2). | `routes/baoCao.js` |
 
-2. **Giao diện như một ứng dụng web thực tế:**
-   - Loại bỏ các mã kỹ thuật (`UC01..UC05`, `QĐ1..QĐ3`, `BM1..BM5`) khỏi mặt giao diện hằng ngày để đảm bảo tính tự nhiên, thẩm mỹ và thân thiện với người dùng.
-   - Toàn bộ hồ sơ kỹ thuật phục vụ báo cáo với giảng viên được tích hợp tinh tế trong nút **"Sơ đồ & Kiến trúc"** ở sidebar. Bấm vào là mở đầy đủ bảng ma trận đối chiếu 5 Use Case, 5 Biểu mẫu, 3 Quy định và các sơ đồ UML/ERD độ phân giải cao trích từ file báo cáo.
+### 5.2. Chi tiết các quy định nghiệp vụ cốt lõi
 
----
+* **Quy định 1 (QĐ1 - Bảo toàn câu hỏi):**
+  * Quản lý 4 môn học: `IT001`, `IT002`, `IT003`, `SE104`.
+  * 4 mức độ khó: Dễ, Trung Bình, Phức Tạp, Khó.
+  * Giảng viên chỉ được phép sửa hoặc xóa câu hỏi khi câu hỏi **chưa thuộc bất kỳ đề thi nào**. Câu hỏi đã được đưa vào đề thi sẽ bị khóa nhằm đảm bảo tính toàn vẹn của đề thi.
 
-## 🏛️ KIẾN TRÚC HỆ THỐNG (3 LỚP / 3-TIER ARCHITECTURE)
+* **Quy định 2 (QĐ2 - Cấu trúc đề thi & Bảo toàn kết quả chấm):**
+  * Mỗi đề thi có từ 1 đến 5 câu hỏi.
+  * Tất cả các câu hỏi trong đề phải thuộc cùng môn thi với đề.
+  * Thời lượng làm bài từ 30 đến 180 phút.
+  * Giảng viên chỉ được phép sửa hoặc xóa đề thi khi đề **chưa có kết quả chấm**. Khi đề đã có bài thi được ghi nhận điểm, hệ thống khóa thao tác sửa/xóa để bảo toàn kết quả thi của sinh viên.
 
-Khi giáo viên hỏi về kiến trúc phần mềm, nhóm trình bày:
+* **Quy định 3 (QĐ3 - Thang điểm và Quy đổi điểm chữ):**
+  * Điểm số nhập vào từ 0.0 đến 10.0 và phải là **bội số của 0.5**.
+  * Hệ thống tự động quy đổi điểm số sang điểm chữ:
+    * 9.0 – 10.0: **A**
+    * 8.0 – 8.5: **B**
+    * 7.0 – 7.5: **C**
+    * 6.0 – 6.5: **D**
+    * 5.0 – 5.5: **E**
+    * < 5.0: **F**
 
-1. **Tầng Giao diện (Presentation Layer - `public/`)**:
-   - Web Single Page Application (SPA) thân thiện, responsive, chuẩn Tailwind CSS và phông chữ Plus Jakarta Sans.
-   - Trực quan hóa dữ liệu bằng Chart.js (Biểu đồ tròn cơ cấu đề thi, biểu đồ cột bài chấm).
-   - Thiết kế chuẩn hóa theo đúng 5 Biểu mẫu **BM1 đến BM5**. Hỗ trợ in đề thi và báo cáo chuẩn mẫu.
+## 6. Cấu trúc thư mục dự án
 
-2. **Tầng Nghiệp vụ (Business Logic Layer - `routes/`)**:
-   - Xây dựng dưới dạng RESTful API với **Node.js & Express.js**.
-   - Cài đặt đầy đủ 5 Use Case (**UC01 đến UC05**).
-   - Kiểm tra chặt chẽ 3 quy định cốt lõi (**QĐ1, QĐ2, QĐ3**) trước khi lưu xuống CSDL.
+```text
+SE104-EduExam/
+├── database/               # Cấu hình CSDL và dữ liệu mẫu
+│   ├── database.sqlite     # File CSDL SQLite cục bộ
+│   ├── db.js               # Wrapper truy vấn SQLite (Promise-based)
+│   ├── schema.sql          # DDL định nghĩa 7 bảng quan hệ (ERD)
+│   └── seedData.js         # Script khởi tạo dữ liệu mẫu
+├── public/                 # Giao diện người dùng (Client-side)
+│   ├── assets/             # Hình ảnh minh họa, logo UIT, sơ đồ hệ thống
+│   ├── css/                # Stylesheet và giao diện Glassmorphism
+│   ├── js/                 # Logic client theo từng phân hệ
+│   │   ├── app.js          # Điều hướng tab, toast, modal
+│   │   ├── uc01_cauHoi.js  # Phân hệ Quản lý câu hỏi
+│   │   ├── uc02_deThi.js   # Phân hệ Quản lý đề thi
+│   │   ├── uc03_chamThi.js # Phân hệ Chấm thi & Sổ điểm
+│   │   ├── uc04_traCuu.js  # Phân hệ Tra cứu & In đề thi
+│   │   └── uc05_baoCao.js  # Phân hệ Báo cáo thống kê
+│   └── index.html          # Trang chủ ứng dụng (Single Page Application)
+├── routes/                 # API Controllers (Server-side)
+│   ├── baoCao.js           # API báo cáo thống kê
+│   ├── cauHoi.js           # API câu hỏi và kiểm tra ràng buộc QĐ1
+│   ├── chamThi.js          # API chấm thi và kiểm tra ràng buộc QĐ3
+│   ├── deThi.js            # API đề thi và kiểm tra ràng buộc QĐ2
+│   └── metadata.js         # API danh mục môn học, lớp, sinh viên
+├── Đồ án/                 # Tài liệu Báo cáo Stage 1 và file đặc tả
+├── package.json            # Khai báo dependencies dự án
+├── server.js               # Khởi tạo Express server
+└── README.md               # Tài liệu hướng dẫn dự án
+```
 
-3. **Tầng Dữ liệu (Data Access Layer - `database/`)**:
-   - Hệ quản trị CSDL quan hệ **SQLite** với 7 bảng ánh xạ chính xác 100% theo Biểu đồ thực thể liên kết (**ERD Hình 2.18**) và Biểu đồ lớp (**Hình 2.17**).
+## 7. Bản quyền & Mục đích sử dụng
 
----
-
-## 📋 ĐỐI CHIẾU 100% VỚI BÁO CÁO STAGE 1
-
-| Use Case | Biểu mẫu | Quy định | Chức năng trong hệ thống | File mã nguồn xử lý |
-| :--- | :---: | :---: | :--- | :--- |
-| **UC01: Soạn câu hỏi** | **BM1** | **QĐ1** | Soạn, sửa, xóa câu hỏi theo 4 môn và 4 độ khó. **Chỉ sửa/xóa câu chưa vào đề**. | `routes/cauHoi.js` |
-| **UC02: Soạn đề thi** | **BM2** | **QĐ2** | Lập đề từ 1–5 câu cùng môn, 30–180 phút. **Chỉ sửa/xóa đề chưa có kết quả chấm**. | `routes/deThi.js` |
-| **UC03: Ghi nhận chấm thi** | **BM3** | **QĐ3** | Nhập điểm theo lớp, **kiểm tra điểm 0–10 bội số 0.5**, **tự động đổi điểm chữ A–F**. | `routes/chamThi.js` |
-| **UC04: Tra cứu đề thi** | **BM4** | - | Tra cứu đa tiêu chí (mã đề, môn, học kỳ, năm học, ngày thi, thời lượng). Xem & in đề thi. | `routes/deThi.js` |
-| **UC05: Lập báo cáo năm** | **BM5** | - | Thống kê số lượng đề, số bài chấm, **tính tỉ lệ theo công thức (1.1) và (1.2)**. | `routes/baoCao.js` |
-
----
-
-## 🔍 CHI TIẾT 3 QUY ĐỊNH NGHIỆP VỤ (VỊ TRÍ CODE ĐỂ CHỈ CHO GIÁO VIÊN)
-
-### 1. Quy định QĐ1 (Mục 1.2.1.1 trong Báo cáo)
-* **Nghiệp vụ:** 
-  - Hệ thống quản lý 4 môn: IT001, IT002, IT003, SE104.
-  - 4 độ khó: Dễ, Trung Bình, Phức Tạp, Khó.
-  - Giảng viên chỉ được sửa hoặc xóa câu hỏi khi câu hỏi **chưa thuộc đề thi**. Câu hỏi đã nằm trong đề được giữ nguyên để bảo toàn nội dung đề thi.
-* **Code kiểm tra:** Xem file `routes/cauHoi.js` (dòng 170 và dòng 220):
-  ```javascript
-  const usedInExam = await get('SELECT maDe FROM DeThi_CauHoi WHERE maCauHoi = ? LIMIT 1', [maCauHoi]);
-  if (usedInExam) {
-    return res.status(400).json({
-      success: false,
-      ruleViolated: 'QĐ1',
-      message: `Không thể chỉnh sửa: Câu hỏi '${maCauHoi}' hiện đang được sử dụng trong đề thi '${usedInExam.maDe}'...`
-    });
-  }
-  ```
-
-### 2. Quy định QĐ2 (Mục 1.2.1.2 trong Báo cáo)
-* **Nghiệp vụ:**
-  - Đề thi có từ 1 đến 5 câu.
-  - Mọi câu hỏi của đề phải thuộc cùng môn thi với đề.
-  - Thời lượng từ 30 đến 180 phút.
-  - Giảng viên chỉ được sửa hoặc xóa đề khi đề **chưa có kết quả chấm**.
-* **Code kiểm tra:** Xem file `routes/deThi.js` (dòng 168 - 208 và dòng 245 - 288):
-  ```javascript
-  // 1. Kiểm tra thời lượng 30 - 180 phút
-  if (thoiLuong < 30 || thoiLuong > 180) throw Error('Thời lượng thi phải từ 30 đến 180 phút');
-  // 2. Kiểm tra số câu hỏi 1 - 5 câu
-  if (danhSachCauHoi.length < 1 || danhSachCauHoi.length > 5) throw Error('Đề thi phải có từ 1 đến 5 câu hỏi');
-  // 3. Kiểm tra các câu hỏi cùng môn với đề
-  if (cauHoi.maMon !== deThi.maMon) throw Error('Câu hỏi phải cùng môn với đề thi');
-  // 4. Kiểm tra đề đã có kết quả chấm chưa khi sửa/xóa
-  const daCham = await get('SELECT COUNT(*) as count FROM KetQuaThi WHERE maDe = ?', [maDe]);
-  if (daCham.count > 0) throw Error('Đề thi đã có bài chấm, hệ thống khóa sửa/xóa');
-  ```
-
-### 3. Quy định QĐ3 (Mục 1.2.1.3 trong Báo cáo)
-* **Nghiệp vụ:**
-  - Điểm số nhập từ 0 đến 10 và là **bội số của 0.5**.
-  - Giảng viên tự làm tròn về 0.5 gần nhất trước khi nhập; hệ thống kiểm tra tính hợp lệ, không tự làm tròn.
-  - Hệ thống tự động quy đổi điểm chữ theo Bảng 1.5:
-    * 9.0; 9.5; 10 -> **A**
-    * 8.0; 8.5 -> **B**
-    * 7.0; 7.5 -> **C**
-    * 6.0; 6.5 -> **D**
-    * 5.0; 5.5 -> **E**
-    * < 5 -> **F**
-* **Code kiểm tra:** Xem file `routes/chamThi.js` (dòng 11 - 45):
-  ```javascript
-  function quyDoiDiemChu(diemSo) {
-    if (diemSo >= 9.0) return 'A';
-    if (diemSo >= 8.0) return 'B';
-    if (diemSo >= 7.0) return 'C';
-    if (diemSo >= 6.0) return 'D';
-    if (diemSo >= 5.0) return 'E';
-    return 'F';
-  }
-  ```
-
----
-
-## 🎯 KỊCH BẢN THUYẾT TRÌNH TRƯỚC GIÁO VIÊN (DEMO FLOW)
-
-Khi đến lượt nhóm lên thuyết trình trước thầy/cô:
-
-1. **Mở đầu (1 phút):**
-   - Mở trang chủ (`http://localhost:3000`), giới thiệu hệ thống **EduExam** phục vụ Giảng viên ra đề và chấm thi của Nhóm 30.
-   - Giới thiệu tổng quan hệ thống: Hero Banner, 4 chỉ số thống kê (Câu hỏi, Đề thi, Bài chấm, Sinh viên), 4 thẻ môn học và Widget tiến độ khảo thí.
-
-2. **Cách mở hồ sơ kỹ thuật cho Giáo viên xem:**
-   - Ở góc dưới sidebar bên trái, bấm vào nút **"Sơ đồ & Kiến trúc"**.
-   - Bảng đối chiếu hiện ra với đầy đủ thông tin: đề tài, giảng viên hướng dẫn (TS. Nguyễn Thị Thu Hương), nhóm 30, bảng đối chiếu 5 Use Case, 5 Biểu mẫu BM1-BM5, 3 Quy định QĐ1-QĐ3.
-   - Bấm vào các nút xem **Sơ đồ ERD (Hình 2.18)**, **Biểu đồ Lớp (Hình 2.17)**, **Biểu đồ Use Case (Hình 2.1)** để phóng to ảnh phân giải cao nếu thầy/cô yêu cầu đối chiếu.
-
-3. **Demo Quản lý Câu hỏi (UC01 & QĐ1 - 2 phút):**
-   - Bấm vào tab **Ngân hàng câu hỏi**.
-   - Chuyển đổi giữa chế độ xem **Thẻ** và **Bảng**.
-   - Bấm **Thêm câu hỏi**, soạn một câu hỏi mới môn `SE104`, độ khó `Trung Bình`.
-   - **Điểm nhấn ràng buộc bảo toàn:** Chọn một câu hỏi có nhãn `Đang dùng` bấm nút Sửa/Xóa. Hệ thống sẽ giải thích lịch sự rằng câu hỏi đang nằm trong đề thi nên được bảo toàn.
-   - Chọn câu hỏi có nhãn `Sẵn sàng sử dụng` để sửa và xóa thành công.
-
-4. **Demo Soạn Đề thi (UC02 & QĐ2 - 2 phút):**
-   - Bấm vào tab **Quản lý đề thi**.
-   - Bấm **Tạo đề thi mới**:
-     + Chọn môn `SE104`. Danh sách câu hỏi bên dưới tự động lọc đúng câu hỏi của môn `SE104`.
-     + Tick chọn 3 câu hỏi (Huy hiệu hiển thị `Đã chọn: 3/5 câu`).
-     + Nhập thời lượng `90` phút. Bấm lưu thành công.
-   - **Điểm nhấn bảo vệ kết quả thi:** Chọn đề thi đã có bài chấm (biểu tượng ổ khóa), bấm nút Sửa hoặc Xóa. Hệ thống chặn lại và thông báo đề thi đã có kết quả chấm thi nên bị khóa để bảo toàn dữ liệu điểm của sinh viên.
-
-5. **Demo Chấm điểm & Sổ điểm (UC03 & QĐ3 - 2 phút):**
-   - Bấm vào tab **Chấm điểm & Sổ điểm**.
-   - Chọn Môn `SE104` -> Chọn Đề thi `SE104_GK_2024` -> Chọn Lớp `SE104.R13`.
-   - Bảng điểm của lớp hiện ra (thấy tên Bùi Huỳnh Tây, Phạm Ngọc Phú Thịnh, Lê Quang Huy...).
-   - **Điểm nhấn thang điểm 0-10 & bước điểm 0.5:**
-     + Thử nhập điểm `8.7`: Ô điểm báo lỗi ngay *"Bước điểm 0.5"*.
-     + Sửa lại thành `9.0`: Ô điểm chuyển trạng thái hợp lệ, điểm chữ tự động nhảy thành **A**.
-     + Nhập `8.5`: Điểm chữ tự động nhảy thành **B**.
-     + Nhập `4.5`: Điểm chữ tự động nhảy thành **F**.
-   - Bấm nút **Lưu kết quả chấm**.
-
-6. **Demo Tra cứu & In đề thi (UC04 & BM2/BM4 - 1 phút):**
-   - Tại Quản lý đề thi, bấm nút **Xem & in đề** tại bất kỳ đề thi nào.
-   - Đề thi được trình bày trang trọng theo đúng mẫu chuẩn kết thúc học phần của Trường ĐH Công nghệ Thông tin - ĐHQG-HCM, có nút **In đề thi** trực tiếp ra file PDF hoặc máy in.
-
-7. **Demo Báo cáo Thống kê (UC05 & BM5 - 1 phút):**
-   - Bấm vào tab **Thống kê & Báo cáo**.
-   - Chọn năm học `2024-2025` -> Bấm **Lập báo cáo**.
-   - Bảng số liệu tổng hợp tính toán chuẩn xác tỉ lệ đề thi và tỉ lệ bài chấm theo đúng **công thức (1.1) và (1.2)** trong báo cáo.
-   - Hai biểu đồ tương tác Chart.js (Biểu đồ tròn cơ cấu đề thi và Biểu đồ cột bài chấm) hiển thị sinh động, trực quan.
-
-8. **Tính năng khôi phục dữ liệu mẫu:**
-   - Bất kỳ lúc nào thầy cô yêu cầu thử nghiệm xóa, sửa dữ liệu, nhóm chỉ cần bấm nút **"Dữ liệu mẫu"** ở góc phải thanh tiêu đề. Hệ thống sẽ tự động nạp lại trạng thái ban đầu chỉ trong 1 giây!
+Dự án được xây dựng phục vụ mục đích học tập và báo cáo đồ án môn học Nhập môn Công nghệ Phần mềm tại Trường Đại học Công nghệ Thông tin - ĐHQG-HCM.
