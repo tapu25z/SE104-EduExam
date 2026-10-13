@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="100%" height="100%">
+  <defs>
+    <linearGradient id="qGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <filter id="qSh" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#059669" flood-opacity="0.15" />
+    </filter>
+  </defs>
+  <rect x="0" y="0" width="200" height="160" fill="none" />
+  
+  <!-- Back circle -->
+  <circle cx="100" cy="80" r="56" fill="#ecfdf5" />
+  <circle cx="150" cy="45" r="16" fill="#a7f3d0" opacity="0.6" />
+  
+  <!-- Question Card -->
+  <g filter="url(#qSh)">
+    <rect x="50" y="35" width="100" height="90" rx="14" fill="#ffffff" stroke="#d1fae5" stroke-width="2" />
+    <!-- Top badge -->
+    <rect x="62" y="48" width="32" height="7" rx="3.5" fill="#10b981" />
+    <circle cx="134" cy="52" r="5" fill="#34d399" />
+    
+    <!-- Question Lines -->
+    <rect x="62" y="65" width="76" height="5" rx="2.5" fill="#64748b" />
+    <rect x="62" y="75" width="55" height="5" rx="2.5" fill="#94a3b8" />
+    
+    <!-- Answer Options -->
+    <rect x="62" y="92" width="76" height="11" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1" />
+    <circle cx="70" cy="97.5" r="2.5" fill="#10b981" />
+    <rect x="76" y="95" width="40" height="4" rx="2" fill="#059669" />
+
+    <rect x="62" y="106" width="76" height="11" rx="4" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+    <circle cx="70" cy="111.5" r="2.5" fill="#cbd5e1" />
+    <rect x="76" y="109" width="30" height="4" rx="2" fill="#94a3b8" />
+  </g>
+  
+  <!-- Floating Question Mark Bubble -->
+  <g transform="translate(130, 25)">
+    <circle cx="14" cy="14" r="14" fill="url(#qGrad)" />
+    <text x="14" y="20" font-family="sans-serif" font-weight="800" font-size="16" fill="#ffffff" text-anchor="middle">?</text>
+  </g>
+</svg>

@@ -1,0 +1,22 @@
+{
+  "name": "ql-rade-chamthi-se104",
+  "version": "1.0.0",
+  "description": "Hệ thống Quản lý việc Ra đề và Chấm thi của Giảng viên - Đồ án SE104 Nhóm 30 UIT",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "uit",
+    "se104",
+    "exam-management"
+  ],
+  "author": "Nhóm 30 - SE104.R13 (Bùi Huỳnh Tây, Phạm Ngọc Phú Thịnh, Lê Quang Huy)",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "sqlite3": "^5.1.7"
+  }
+}

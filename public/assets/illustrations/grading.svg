@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="100%" height="100%">
+  <defs>
+    <linearGradient id="grGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8b5cf6" />
+      <stop offset="100%" stop-color="#6d28d9" />
+    </linearGradient>
+    <filter id="grSh" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#4c1d95" flood-opacity="0.15" />
+    </filter>
+  </defs>
+  <rect x="0" y="0" width="200" height="160" fill="none" />
+  
+  <circle cx="100" cy="80" r="56" fill="#f5f3ff" />
+  <circle cx="160" cy="95" r="14" fill="#ddd6fe" opacity="0.6" />
+  
+  <!-- Clipboard -->
+  <g filter="url(#grSh)">
+    <rect x="52" y="32" width="96" height="106" rx="14" fill="#ffffff" stroke="#ddd6fe" stroke-width="2" />
+    
+    <!-- Top Clip -->
+    <rect x="80" y="24" width="40" height="14" rx="5" fill="#475569" />
+    <circle cx="100" cy="29" r="3" fill="#ffffff" />
+    
+    <!-- Student Row 1 -->
+    <circle cx="68" cy="54" r="7" fill="#dbeafe" />
+    <text x="68" y="57" font-family="sans-serif" font-weight="700" font-size="7" fill="#1d4ed8" text-anchor="middle">SV</text>
+    <rect x="80" y="51" width="36" height="5" rx="2.5" fill="#334155" />
+    <circle cx="132" cy="54" r="8" fill="#10b981" />
+    <text x="132" y="58" font-family="sans-serif" font-weight="800" font-size="10" fill="#ffffff" text-anchor="middle">A</text>
+    
+    <!-- Student Row 2 -->
+    <circle cx="68" cy="74" r="7" fill="#fce7f3" />
+    <text x="68" y="77" font-family="sans-serif" font-weight="700" font-size="7" fill="#be185d" text-anchor="middle">TN</text>
+    <rect x="80" y="71" width="40" height="5" rx="2.5" fill="#334155" />
+    <circle cx="132" cy="74" r="8" fill="#3b82f6" />
+    <text x="132" y="78" font-family="sans-serif" font-weight="800" font-size="10" fill="#ffffff" text-anchor="middle">B</text>
+
+    <!-- Student Row 3 -->
+    <circle cx="68" cy="94" r="7" fill="#fef3c7" />
+    <text x="68" y="97" font-family="sans-serif" font-weight="700" font-size="7" fill="#b45309" text-anchor="middle">LH</text>
+    <rect x="80" y="91" width="32" height="5" rx="2.5" fill="#334155" />
+    <circle cx="132" cy="94" r="8" fill="#06b6d4" />
+    <text x="132" y="98" font-family="sans-serif" font-weight="800" font-size="10" fill="#ffffff" text-anchor="middle">C</text>
+
+    <!-- Student Row 4 -->
+    <circle cx="68" cy="114" r="7" fill="#dcfce7" />
+    <text x="68" y="117" font-family="sans-serif" font-weight="700" font-size="7" fill="#15803d" text-anchor="middle">BT</text>
+    <rect x="80" y="111" width="38" height="5" rx="2.5" fill="#334155" />
+    <circle cx="132" cy="114" r="8" fill="#10b981" />
+    <text x="132" y="118" font-family="sans-serif" font-weight="800" font-size="10" fill="#ffffff" text-anchor="middle">A</text>
+  </g>
+  
+  <!-- Checkmark Badge -->
+  <g transform="translate(134, 26)">
+    <circle cx="14" cy="14" r="14" fill="#10b981" />
+    <path d="M9 14 L12 17 L19 10" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>

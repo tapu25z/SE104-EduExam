@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 160" width="100%" height="100%">
+  <defs>
+    <linearGradient id="anGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <filter id="anSh" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#b45309" flood-opacity="0.15" />
+    </filter>
+  </defs>
+  <rect x="0" y="0" width="200" height="160" fill="none" />
+  
+  <circle cx="100" cy="80" r="56" fill="#fffbeb" />
+  <circle cx="45" cy="110" r="16" fill="#fef3c7" opacity="0.6" />
+  
+  <!-- Analytics Dashboard Card -->
+  <g filter="url(#anSh)">
+    <rect x="48" y="32" width="104" height="96" rx="14" fill="#ffffff" stroke="#fde68a" stroke-width="2" />
+    
+    <!-- Header -->
+    <rect x="60" y="44" width="36" height="5" rx="2.5" fill="#334155" />
+    <circle cx="138" cy="46" r="4" fill="#f59e0b" />
+    
+    <!-- Mini Donut / Circle Chart -->
+    <circle cx="78" cy="74" r="16" fill="none" stroke="#e2e8f0" stroke-width="6" />
+    <circle cx="78" cy="74" r="16" fill="none" stroke="#3b82f6" stroke-width="6" stroke-dasharray="75 100" stroke-linecap="round" transform="rotate(-90 78 74)" />
+    <circle cx="78" cy="74" r="16" fill="none" stroke="#10b981" stroke-width="6" stroke-dasharray="25 100" stroke-dashoffset="-75" stroke-linecap="round" transform="rotate(-90 78 74)" />
+    
+    <!-- Legend -->
+    <circle cx="106" cy="68" r="3" fill="#3b82f6" />
+    <rect x="113" y="66" width="24" height="4" rx="2" fill="#64748b" />
+    <circle cx="106" cy="80" r="3" fill="#10b981" />
+    <rect x="113" y="78" width="20" height="4" rx="2" fill="#64748b" />
+
+    <!-- Bar Chart at bottom -->
+    <line x1="60" y1="112" x2="140" y2="112" stroke="#e2e8f0" stroke-width="1.5" />
+    
+    <rect x="66" y="98" width="8" height="14" rx="2" fill="#3b82f6" />
+    <rect x="80" y="94" width="8" height="18" rx="2" fill="#8b5cf6" />
+    <rect x="94" y="90" width="8" height="22" rx="2" fill="#10b981" />
+    <rect x="108" y="96" width="8" height="16" rx="2" fill="#f59e0b" />
+    <rect x="122" y="92" width="8" height="20" rx="2" fill="#06b6d4" />
+  </g>
+  
+  <!-- Trend arrow badge -->
+  <g transform="translate(132, 22)">
+    <circle cx="14" cy="14" r="14" fill="#3b82f6" />
+    <path d="M9 17 L14 12 L19 17 M14 12 L14 20" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>

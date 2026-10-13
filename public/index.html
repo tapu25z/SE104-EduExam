@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduExam • Cổng Quản Lý Khảo Thí & Chấm Điểm</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="antialiased h-screen flex overflow-hidden relative">
+
+  <!-- ==================== ANIMATED LIQUID MESH BACKGROUND (iOS VISION LIQUID GLASS) ==================== -->
+  <div class="liquid-bg-container pointer-events-none fixed inset-0 overflow-hidden z-0">
+    <div class="liquid-blob liquid-blob-1"></div>
+    <div class="liquid-blob liquid-blob-2"></div>
+    <div class="liquid-blob liquid-blob-3"></div>
+    <div class="liquid-blob liquid-blob-4"></div>
+    <div class="liquid-blob liquid-blob-5"></div>
+  </div>
+
+  <!-- ==================== LEFT SIDEBAR (LIQUID GLASS) ==================== -->
+  <aside class="w-64 glass-sidebar flex flex-col justify-between shrink-0 no-print z-20">
+    <div>
+      <!-- Brand Logo -->
+      <div class="h-16 px-5 flex items-center space-x-3 border-b border-white/40">
+        <div class="w-9 h-9 rounded-xl overflow-hidden shadow-2xs border border-white/60">
+          <img src="assets/illustrations/uit-logo.svg" alt="EduExam Logo" class="w-full h-full object-cover">
+        </div>
+        <div>
+          <div class="font-extrabold text-slate-900 tracking-tight text-sm flex items-center space-x-1.5">
+            <span>EduExam</span>
+            <span class="bg-blue-500/10 text-blue-600 text-[10px] px-1.5 py-0.2 rounded-md font-mono font-bold border border-blue-500/20">PRO</span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-medium">Hệ Thống Khảo Thí</p>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="p-3 space-y-1">
+        <div class="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Khảo thí</div>
+
+        <button onclick="window.app.switchTab('dashboard')" data-tab="dashboard" class="nav-item active w-full">
+          <i class="fa-solid fa-house w-5 text-blue-600"></i>
+          <span>Tổng quan</span>
+        </button>
+
+        <button onclick="window.app.switchTab('cauhoi')" data-tab="cauhoi" class="nav-item w-full">
+          <i class="fa-solid fa-circle-question w-5 text-emerald-600"></i>
+          <span>Ngân hàng câu hỏi</span>
+        </button>
+
+        <button onclick="window.app.switchTab('dethi')" data-tab="dethi" class="nav-item w-full">
+          <i class="fa-solid fa-file-pen w-5 text-blue-600"></i>
+          <span>Quản lý đề thi</span>
+        </button>
+
+        <button onclick="window.app.switchTab('chamthi')" data-tab="chamthi" class="nav-item w-full">
+          <i class="fa-solid fa-square-check w-5 text-indigo-600"></i>
+          <span>Chấm điểm & Sổ điểm</span>
+        </button>
+
+        <button onclick="window.app.switchTab('baocao')" data-tab="baocao" class="nav-item w-full">
+          <i class="fa-solid fa-chart-pie w-5 text-amber-600"></i>
+          <span>Thống kê & Báo cáo</span>
+        </button>
+      </div>
+
+      <!-- Subject Quick Filters -->
+      <div class="px-3 pt-2 space-y-1">
+        <div class="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Môn học</div>
+        
+        <button onclick="window.app.locTheoMon('IT001')" class="nav-item w-full text-xs py-1.5">
+          <span class="w-2 h-2 rounded-full bg-blue-500 mr-2.5 shadow-2xs"></span>
+          <span>Nhập môn lập trình</span>
+        </button>
+
+        <button onclick="window.app.locTheoMon('IT002')" class="nav-item w-full text-xs py-1.5">
+          <span class="w-2 h-2 rounded-full bg-purple-500 mr-2.5 shadow-2xs"></span>
+          <span>Hướng đối tượng (OOP)</span>
+        </button>
+
+        <button onclick="window.app.locTheoMon('IT003')" class="nav-item w-full text-xs py-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2.5 shadow-2xs"></span>
+          <span>Cấu trúc dữ liệu & GT</span>
+        </button>
+
+        <button onclick="window.app.locTheoMon('SE104')" class="nav-item w-full text-xs py-1.5">
+          <span class="w-2 h-2 rounded-full bg-amber-500 mr-2.5 shadow-2xs"></span>
+          <span>Nhập môn CNPM</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Bottom User Profile & Project Compliance Button -->
+    <div class="p-3 border-t border-white/40 space-y-2">
+      <!-- Nút Tài Liệu & Kiến Trúc -->
+      <button onclick="window.app.openProjectSpecModal()" class="w-full glass-card hover:bg-white/90 text-slate-700 text-xs px-3 py-2 rounded-xl font-medium transition flex items-center justify-between border border-white/80 shadow-2xs">
+        <span class="flex items-center space-x-2">
+          <i class="fa-solid fa-circle-nodes text-blue-600"></i>
+          <span>Sơ đồ & Kiến trúc</span>
+        </span>
+        <i class="fa-solid fa-chevron-right text-[10px] opacity-40"></i>
+      </button>
+
+      <!-- User Card -->
+      <div class="flex items-center space-x-3 p-2 rounded-xl glass-card">
+        <div class="w-8 h-8 rounded-full avatar-grad-blue font-bold text-xs flex items-center justify-center shrink-0">
+          TH
+        </div>
+        <div class="overflow-hidden">
+          <p class="text-xs font-bold text-slate-800 truncate">TS. Thu Hương</p>
+          <p class="text-[10px] text-slate-400 truncate">Giảng viên phụ trách</p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==================== MAIN CONTENT AREA ==================== -->
+  <div class="flex-1 flex flex-col h-screen overflow-hidden relative z-10">
+    
+    <!-- Top Header Bar (Liquid Glass) -->
+    <header class="h-16 glass-header px-6 flex items-center justify-between shrink-0 no-print z-10">
+      <div class="flex items-center space-x-4">
+        <h2 id="topbar-title" class="text-base font-extrabold text-slate-900 tracking-tight">Tổng quan hệ thống</h2>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="flex items-center space-x-2.5">
+        <button onclick="window.app.resetSampleData()" class="glass-pill text-xs hover:bg-white text-slate-700 font-medium px-3 py-1.5 rounded-xl transition flex items-center space-x-1.5" title="Khôi phục dữ liệu mẫu ban đầu">
+          <i class="fa-solid fa-rotate-left text-xs"></i>
+          <span class="hidden sm:inline">Dữ liệu mẫu</span>
+        </button>
+
+        <button onclick="window.app.openQuickCreate()" class="text-xs liquid-btn-primary text-white font-bold px-4 py-1.5 rounded-xl transition shadow-sm flex items-center space-x-1.5">
+          <i class="fa-solid fa-plus text-xs"></i>
+          <span>Tạo mới</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Scrollable Body Views -->
+    <main class="flex-1 overflow-y-auto p-6 space-y-6">
+
+      <!-- ==================== TAB 0: TỔNG QUAN (DASHBOARD) ==================== -->
+      <section id="view-dashboard" class="tab-view animate-fade-in space-y-6">
+        
+        <!-- Welcome Hero Banner (iOS Squircle + Glass Details) -->
+        <div class="liquid-hero-banner rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden border border-white/20">
+          <div class="max-w-lg z-10">
+            <span class="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider inline-block mb-3 border border-white/30">
+              Chào mừng trở lại
+            </span>
+            <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">
+              Cổng Khảo Thí & Chấm Điểm
+            </h1>
+            <p class="text-blue-100 text-xs sm:text-sm leading-relaxed mb-4">
+              Quản lý tập trung ngân hàng câu hỏi, biên soạn đề thi tiêu chuẩn và ghi nhận bảng điểm sinh viên.
+            </p>
+            <div class="flex items-center space-x-2.5">
+              <button onclick="window.app.switchTab('cauhoi')" class="bg-white/95 hover:bg-white text-blue-700 text-xs font-bold px-4 py-2 rounded-xl transition shadow-md">
+                Ngân hàng câu hỏi
+              </button>
+              <button onclick="window.app.switchTab('dethi')" class="bg-white/20 hover:bg-white/30 text-white border border-white/40 backdrop-blur-md text-xs font-bold px-4 py-2 rounded-xl transition">
+                Quản lý đề thi
+              </button>
+            </div>
+          </div>
+
+          <div class="w-full md:w-72 h-44 z-10 flex items-center justify-center">
+            <img src="assets/illustrations/hero-banner.svg" alt="Illustration" class="w-full h-full object-contain filter drop-shadow-lg">
+          </div>
+          <div class="absolute -right-16 -top-16 w-80 h-80 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+        </div>
+
+        <!-- KPI Metrics (Liquid Glass Cards with Progress Bars) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="glass-card p-4 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center text-lg font-bold border border-emerald-500/20">
+                <i class="fa-solid fa-circle-question"></i>
+              </div>
+              <span class="text-[10px] font-bold text-emerald-700 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">95%</span>
+            </div>
+            <div>
+              <div class="text-2xl font-extrabold text-slate-800" id="dash-cauhoi">19</div>
+              <div class="text-xs text-slate-500 font-medium">Câu hỏi trong kho</div>
+            </div>
+            <div class="liquid-progress-bg h-1.5 w-full">
+              <div class="liquid-progress-fill liquid-bar-emerald" style="width: 95%"></div>
+            </div>
+          </div>
+
+          <div class="glass-card p-4 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="w-10 h-10 rounded-2xl bg-blue-500/10 text-blue-600 flex items-center justify-center text-lg font-bold border border-blue-500/20">
+                <i class="fa-solid fa-file-lines"></i>
+              </div>
+              <span class="text-[10px] font-bold text-blue-700 bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">100%</span>
+            </div>
+            <div>
+              <div class="text-2xl font-extrabold text-slate-800" id="dash-dethi">7</div>
+              <div class="text-xs text-slate-500 font-medium">Đề thi đã tạo</div>
+            </div>
+            <div class="liquid-progress-bg h-1.5 w-full">
+              <div class="liquid-progress-fill liquid-bar-blue" style="width: 100%"></div>
+            </div>
+          </div>
+
+          <div class="glass-card p-4 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="w-10 h-10 rounded-2xl bg-indigo-500/10 text-indigo-600 flex items-center justify-center text-lg font-bold border border-indigo-500/20">
+                <i class="fa-solid fa-square-check"></i>
+              </div>
+              <span class="text-[10px] font-bold text-indigo-700 bg-indigo-500/10 px-2 py-0.5 rounded-full border border-indigo-500/20">90%</span>
+            </div>
+            <div>
+              <div class="text-2xl font-extrabold text-slate-800" id="dash-baicham">17</div>
+              <div class="text-xs text-slate-500 font-medium">Bài thi đã chấm</div>
+            </div>
+            <div class="liquid-progress-bg h-1.5 w-full">
+              <div class="liquid-progress-fill liquid-bar-purple" style="width: 90%"></div>
+            </div>
+          </div>
+
+          <div class="glass-card p-4 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <div class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-600 flex items-center justify-center text-lg font-bold border border-amber-500/20">
+                <i class="fa-solid fa-user-graduate"></i>
+              </div>
+              <span class="text-[10px] font-bold text-amber-700 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">4 lớp</span>
+            </div>
+            <div>
+              <div class="text-2xl font-extrabold text-slate-800" id="dash-sinhvien">20</div>
+              <div class="text-xs text-slate-500 font-medium">Sinh viên theo lớp</div>
+            </div>
+            <div class="liquid-progress-bg h-1.5 w-full">
+              <div class="liquid-progress-fill liquid-bar-amber" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 Subjects Cards (With Mini Liquid Progress Bars) -->
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-extrabold text-sm text-slate-900">Môn học giảng dạy</h3>
+            <span class="text-xs text-slate-400">Bấm để lọc câu hỏi theo môn</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div onclick="window.app.locTheoMon('IT001')" class="glass-card app-card-lift p-4 cursor-pointer flex flex-col justify-between hover:border-blue-300">
+              <div class="flex items-center space-x-3 mb-2">
+                <div class="w-11 h-11 rounded-2xl overflow-hidden bg-white/80 p-1 shrink-0 border border-white/90 shadow-2xs">
+                  <img src="assets/illustrations/sub-it001.svg" alt="IT001" class="w-full h-full object-contain">
+                </div>
+                <div class="overflow-hidden">
+                  <div class="font-mono text-[10px] font-bold text-blue-600">IT001</div>
+                  <h4 class="font-bold text-xs text-slate-800 truncate">Nhập môn lập trình</h4>
+                  <p class="text-[11px] text-slate-400" id="dash-count-it001">5 câu hỏi • 2 đề</p>
+                </div>
+              </div>
+              <div class="pt-2 border-t border-slate-100/60">
+                <div class="flex justify-between text-[10px] text-slate-400 mb-1 font-semibold">
+                  <span>Tiến độ câu hỏi</span>
+                  <span class="text-blue-600 font-bold">100%</span>
+                </div>
+                <div class="liquid-progress-bg h-1.5 w-full">
+                  <div class="liquid-progress-fill liquid-bar-blue" style="width: 100%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div onclick="window.app.locTheoMon('IT002')" class="glass-card app-card-lift p-4 cursor-pointer flex flex-col justify-between hover:border-purple-300">
+              <div class="flex items-center space-x-3 mb-2">
+                <div class="w-11 h-11 rounded-2xl overflow-hidden bg-white/80 p-1 shrink-0 border border-white/90 shadow-2xs">
+                  <img src="assets/illustrations/sub-it002.svg" alt="IT002" class="w-full h-full object-contain">
+                </div>
+                <div class="overflow-hidden">
+                  <div class="font-mono text-[10px] font-bold text-purple-600">IT002</div>
+                  <h4 class="font-bold text-xs text-slate-800 truncate">Hướng đối tượng</h4>
+                  <p class="text-[11px] text-slate-400" id="dash-count-it002">4 câu hỏi • 1 đề</p>
+                </div>
+              </div>
+              <div class="pt-2 border-t border-slate-100/60">
+                <div class="flex justify-between text-[10px] text-slate-400 mb-1 font-semibold">
+                  <span>Tiến độ câu hỏi</span>
+                  <span class="text-purple-600 font-bold">80%</span>
+                </div>
+                <div class="liquid-progress-bg h-1.5 w-full">
+                  <div class="liquid-progress-fill liquid-bar-purple" style="width: 80%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div onclick="window.app.locTheoMon('IT003')" class="glass-card app-card-lift p-4 cursor-pointer flex flex-col justify-between hover:border-emerald-300">
+              <div class="flex items-center space-x-3 mb-2">
+                <div class="w-11 h-11 rounded-2xl overflow-hidden bg-white/80 p-1 shrink-0 border border-white/90 shadow-2xs">
+                  <img src="assets/illustrations/sub-it003.svg" alt="IT003" class="w-full h-full object-contain">
+                </div>
+                <div class="overflow-hidden">
+                  <div class="font-mono text-[10px] font-bold text-emerald-600">IT003</div>
+                  <h4 class="font-bold text-xs text-slate-800 truncate">Cấu trúc dữ liệu</h4>
+                  <p class="text-[11px] text-slate-400" id="dash-count-it003">4 câu hỏi • 1 đề</p>
+                </div>
+              </div>
+              <div class="pt-2 border-t border-slate-100/60">
+                <div class="flex justify-between text-[10px] text-slate-400 mb-1 font-semibold">
+                  <span>Tiến độ câu hỏi</span>
+                  <span class="text-emerald-600 font-bold">80%</span>
+                </div>
+                <div class="liquid-progress-bg h-1.5 w-full">
+                  <div class="liquid-progress-fill liquid-bar-emerald" style="width: 80%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div onclick="window.app.locTheoMon('SE104')" class="glass-card app-card-lift p-4 cursor-pointer flex flex-col justify-between hover:border-amber-300">
+              <div class="flex items-center space-x-3 mb-2">
+                <div class="w-11 h-11 rounded-2xl overflow-hidden bg-white/80 p-1 shrink-0 border border-white/90 shadow-2xs">
+                  <img src="assets/illustrations/sub-se104.svg" alt="SE104" class="w-full h-full object-contain">
+                </div>
+                <div class="overflow-hidden">
+                  <div class="font-mono text-[10px] font-bold text-amber-600">SE104</div>
+                  <h4 class="font-bold text-xs text-slate-800 truncate">Nhập môn CNPM</h4>
+                  <p class="text-[11px] text-slate-400" id="dash-count-se104">6 câu hỏi • 3 đề</p>
+                </div>
+              </div>
+              <div class="pt-2 border-t border-slate-100/60">
+                <div class="flex justify-between text-[10px] text-slate-400 mb-1 font-semibold">
+                  <span>Tiến độ câu hỏi</span>
+                  <span class="text-amber-600 font-bold">100%</span>
+                </div>
+                <div class="liquid-progress-bg h-1.5 w-full">
+                  <div class="liquid-progress-fill liquid-bar-amber" style="width: 100%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions & Visual Progress -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <!-- Quick Actions Tile -->
+          <div class="app-card p-5 space-y-3.5">
+            <h3 class="font-extrabold text-xs uppercase tracking-wider text-slate-700 flex items-center space-x-2">
+              <i class="fa-solid fa-bolt text-amber-500"></i>
+              <span>Thao tác nhanh</span>
+            </h3>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <button onclick="window.uc01.openCreateModal()" class="p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 border border-slate-200/80 hover:border-emerald-200 transition text-left group">
+                <div class="w-7 h-7 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center mb-2 group-hover:scale-110 transition">
+                  <i class="fa-solid fa-plus text-xs"></i>
+                </div>
+                <div class="font-bold text-xs text-slate-800">Soạn câu hỏi</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Thêm vào ngân hàng</div>
+              </button>
+
+              <button onclick="window.uc02.openCreateModal()" class="p-3 rounded-xl bg-slate-50 hover:bg-blue-50 border border-slate-200/80 hover:border-blue-200 transition text-left group">
+                <div class="w-7 h-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center mb-2 group-hover:scale-110 transition">
+                  <i class="fa-solid fa-file-pen text-xs"></i>
+                </div>
+                <div class="font-bold text-xs text-slate-800">Tạo đề thi</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Soạn đề 1–5 câu</div>
+              </button>
+
+              <button onclick="window.app.switchTab('chamthi')" class="p-3 rounded-xl bg-slate-50 hover:bg-indigo-50 border border-slate-200/80 hover:border-indigo-200 transition text-left group">
+                <div class="w-7 h-7 rounded-lg bg-indigo-100 text-indigo-700 flex items-center justify-center mb-2 group-hover:scale-110 transition">
+                  <i class="fa-solid fa-square-check text-xs"></i>
+                </div>
+                <div class="font-bold text-xs text-slate-800">Chấm điểm</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Nhập sổ điểm lớp</div>
+              </button>
+
+              <button onclick="window.app.switchTab('baocao')" class="p-3 rounded-xl bg-slate-50 hover:bg-amber-50 border border-slate-200/80 hover:border-amber-200 transition text-left group">
+                <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center mb-2 group-hover:scale-110 transition">
+                  <i class="fa-solid fa-chart-pie text-xs"></i>
+                </div>
+                <div class="font-bold text-xs text-slate-800">Báo cáo năm</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Tổng hợp số liệu</div>
+              </button>
+            </div>
+          </div>
+
+          <!-- Progress Overview Card -->
+          <div class="lg:col-span-2 app-card p-5 space-y-3.5">
+            <div class="flex items-center justify-between">
+              <h3 class="font-extrabold text-xs uppercase tracking-wider text-slate-700 flex items-center space-x-2">
+                <i class="fa-solid fa-chart-line text-blue-600"></i>
+                <span>Tình trạng ngân hàng câu hỏi & đề thi</span>
+              </h3>
+              <span class="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                <i class="fa-solid fa-circle-check mr-1"></i>Dữ liệu sẵn sàng
+              </span>
+            </div>
+
+            <div class="space-y-3">
+              <!-- IT001 -->
+              <div>
+                <div class="flex items-center justify-between text-xs mb-1">
+                  <span class="font-bold text-slate-800 flex items-center space-x-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-xs"></span>
+                    <span>IT001 • Nhập môn lập trình</span>
+                  </span>
+                  <span class="font-mono text-slate-500 text-[11px] font-medium">5 câu hỏi • 2 đề thi</span>
+                </div>
+                <div class="liquid-progress-bg h-2 w-full">
+                  <div class="liquid-progress-fill liquid-bar-blue" style="width: 100%"></div>
+                </div>
+              </div>
+
+              <!-- IT002 -->
+              <div>
+                <div class="flex items-center justify-between text-xs mb-1">
+                  <span class="font-bold text-slate-800 flex items-center space-x-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-purple-500 shadow-xs"></span>
+                    <span>IT002 • Lập trình hướng đối tượng</span>
+                  </span>
+                  <span class="font-mono text-slate-500 text-[11px] font-medium">4 câu hỏi • 1 đề thi</span>
+                </div>
+                <div class="liquid-progress-bg h-2 w-full">
+                  <div class="liquid-progress-fill liquid-bar-purple" style="width: 80%"></div>
+                </div>
+              </div>
+
+              <!-- IT003 -->
+              <div>
+                <div class="flex items-center justify-between text-xs mb-1">
+                  <span class="font-bold text-slate-800 flex items-center space-x-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-xs"></span>
+                    <span>IT003 • Cấu trúc dữ liệu & Giải thuật</span>
+                  </span>
+                  <span class="font-mono text-slate-500 text-[11px] font-medium">4 câu hỏi • 1 đề thi</span>
+                </div>
+                <div class="liquid-progress-bg h-2 w-full">
+                  <div class="liquid-progress-fill liquid-bar-emerald" style="width: 80%"></div>
+                </div>
+              </div>
+
+              <!-- SE104 -->
+              <div>
+                <div class="flex items-center justify-between text-xs mb-1">
+                  <span class="font-bold text-slate-800 flex items-center space-x-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-xs"></span>
+                    <span>SE104 • Nhập môn Công nghệ Phần mềm</span>
+                  </span>
+                  <span class="font-mono text-slate-500 text-[11px] font-medium">6 câu hỏi • 3 đề thi</span>
+                </div>
+                <div class="liquid-progress-bg h-2 w-full">
+                  <div class="liquid-progress-fill liquid-bar-amber" style="width: 100%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ==================== TAB 1: NGÂN HÀNG CÂU HỎI ==================== -->
+      <section id="view-cauhoi" class="tab-view hidden space-y-5 animate-fade-in">
+        
+        <!-- Action & Filter Bar -->
+        <div class="app-card p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+          <div class="flex-1 flex flex-wrap items-center gap-2.5">
+            <div class="relative min-w-[200px] flex-1">
+              <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+              <input type="text" id="ch-filter-search" oninput="window.uc01.taiDanhSach()" placeholder="Tìm nội dung câu hỏi..." class="w-full pl-8 pr-3 py-2 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-slate-50/50">
+            </div>
+
+            <select id="ch-filter-mon" onchange="window.uc01.taiDanhSach()" class="py-2 px-3 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+              <option value="">Tất cả môn học</option>
+            </select>
+
+            <select id="ch-filter-dokho" onchange="window.uc01.taiDanhSach()" class="py-2 px-3 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+              <option value="">Tất cả độ khó</option>
+              <option value="Dễ">Dễ</option>
+              <option value="Trung Bình">Trung Bình</option>
+              <option value="Phức Tạp">Phức Tạp</option>
+              <option value="Khó">Khó</option>
+            </select>
+          </div>
+
+          <div class="flex items-center space-x-2 shrink-0">
+            <!-- View Mode Switch -->
+            <div class="bg-slate-100 p-1 rounded-xl flex items-center space-x-1">
+              <button id="ch-view-card-btn" onclick="window.uc01.setViewMode('card')" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-white shadow-2xs text-blue-700">
+                <i class="fa-solid fa-grip mr-1"></i>Thẻ
+              </button>
+              <button id="ch-view-table-btn" onclick="window.uc01.setViewMode('table')" class="px-2.5 py-1 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900">
+                <i class="fa-solid fa-list mr-1"></i>Bảng
+              </button>
+            </div>
+
+            <button onclick="window.uc01.openCreateModal()" class="liquid-btn-primary text-white text-xs font-bold px-3.5 py-2 rounded-xl transition shadow-xs flex items-center space-x-1.5">
+              <i class="fa-solid fa-plus text-xs"></i>
+              <span>Thêm câu hỏi</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Cards View -->
+        <div id="ch-card-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Loaded dynamically -->
+        </div>
+
+        <!-- Table View -->
+        <div id="ch-table-container" class="hidden app-card overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-slate-100/75 border-b border-slate-200 text-slate-600 font-semibold uppercase">
+                  <th class="py-3 px-4 w-12 text-center">STT</th>
+                  <th class="py-3 px-4 w-28">Mã câu</th>
+                  <th class="py-3 px-4 w-40">Môn học</th>
+                  <th class="py-3 px-4 w-28">Độ khó</th>
+                  <th class="py-3 px-4">Nội dung</th>
+                  <th class="py-3 px-4 w-32 text-center">Trạng thái</th>
+                  <th class="py-3 px-4 w-24 text-center">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="ch-table-body" class="divide-y divide-slate-100">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="text-xs text-slate-400 px-1" id="ch-total-count">
+          Tổng cộng: 0 câu hỏi
+        </div>
+      </section>
+
+      <!-- ==================== TAB 2: QUẢN LÝ ĐỀ THI ==================== -->
+      <section id="view-dethi" class="tab-view hidden space-y-5 animate-fade-in">
+        
+        <!-- Action & Filter Bar -->
+        <div class="app-card p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-bold text-slate-800">Danh sách đề thi</span>
+            <span class="text-xs text-slate-400" id="dt-total-count">• 0 đề thi</span>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <!-- View Mode Switch -->
+            <div class="bg-slate-100 p-1 rounded-xl flex items-center space-x-1">
+              <button id="dt-view-card-btn" onclick="window.uc02.setViewMode('card')" class="px-2.5 py-1 text-xs font-semibold rounded-lg bg-white shadow-2xs text-blue-700">
+                <i class="fa-solid fa-grip mr-1"></i>Thẻ
+              </button>
+              <button id="dt-view-table-btn" onclick="window.uc02.setViewMode('table')" class="px-2.5 py-1 text-xs font-semibold rounded-lg text-slate-600 hover:text-slate-900">
+                <i class="fa-solid fa-list mr-1"></i>Bảng
+              </button>
+            </div>
+
+            <button onclick="window.uc02.openCreateModal()" class="liquid-btn-primary text-white text-xs font-bold px-3.5 py-2 rounded-xl transition shadow-xs flex items-center space-x-1.5">
+              <i class="fa-solid fa-plus text-xs"></i>
+              <span>Tạo đề thi mới</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Cards View -->
+        <div id="dt-card-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Loaded dynamically -->
+        </div>
+
+        <!-- Table View -->
+        <div id="dt-table-container" class="hidden app-card overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-slate-100/75 border-b border-slate-200 text-slate-600 font-semibold uppercase">
+                  <th class="py-3 px-4 w-12 text-center">STT</th>
+                  <th class="py-3 px-4 w-32">Mã đề</th>
+                  <th class="py-3 px-4">Môn thi</th>
+                  <th class="py-3 px-4 w-28 text-center">Học kỳ / Năm</th>
+                  <th class="py-3 px-4 w-28 text-center">Ngày thi</th>
+                  <th class="py-3 px-4 w-24 text-center">Thời lượng</th>
+                  <th class="py-3 px-4 w-24 text-center">Số câu</th>
+                  <th class="py-3 px-4 w-32 text-center">Trạng thái</th>
+                  <th class="py-3 px-4 w-32 text-center">Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="dt-table-body" class="divide-y divide-slate-100">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 3: CHẤM ĐIỂM & SỔ ĐIỂM ==================== -->
+      <section id="view-chamthi" class="tab-view hidden space-y-5 animate-fade-in">
+        
+        <!-- Selectors Bar -->
+        <div class="app-card p-4 space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Môn thi</label>
+              <select id="ct-select-mon" onchange="window.uc03.onChonMon()" class="w-full p-2 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white">
+                <option value="">-- Chọn môn thi --</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Đề thi</label>
+              <select id="ct-select-de" onchange="window.uc03.onChonDe()" class="w-full p-2 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white" disabled>
+                <option value="">-- Chọn đề thi --</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Lớp học</label>
+              <select id="ct-select-lop" onchange="window.uc03.taiDanhSachSinhVien()" class="w-full p-2 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white">
+                <option value="">-- Chọn lớp học --</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Exam details pill -->
+          <div id="ct-exam-info" class="pt-2 border-t border-slate-100 hidden flex-wrap items-center gap-2 text-xs text-slate-600">
+            <span class="bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-lg font-medium" id="ct-info-mon">Môn: --</span>
+            <span class="bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-lg font-medium" id="ct-info-thoiluong">Thời lượng: --</span>
+            <span class="bg-blue-50 text-blue-700 px-2.5 py-0.5 rounded-lg font-medium" id="ct-info-ngaythi">Ngày thi: --</span>
+            <span class="bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-lg font-medium" id="ct-info-hocky">Học kỳ / Năm: --</span>
+          </div>
+        </div>
+
+        <!-- Live Grading Progress Box -->
+        <div id="ct-progress-box" class="glass-card p-4 hidden">
+          <!-- Dynamically updated by uc03_chamThi.js -->
+        </div>
+
+        <!-- Grading Table -->
+        <div class="glass-card overflow-hidden">
+          <div class="p-4 bg-slate-50/80 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center space-x-2">
+              <span class="font-bold text-slate-800 text-xs">Bảng điểm thi</span>
+              <span class="text-[11px] text-slate-400" id="ct-student-count">• 0 sinh viên</span>
+            </div>
+
+            <!-- Grade scale reference -->
+            <div class="flex items-center space-x-1.5 text-xs">
+              <span class="grade-A px-1.5 py-0.5 rounded font-mono text-[10px] font-bold">A ≥ 9</span>
+              <span class="grade-B px-1.5 py-0.5 rounded font-mono text-[10px] font-bold">B ≥ 8</span>
+              <span class="grade-C px-1.5 py-0.5 rounded font-mono text-[10px] font-bold">C ≥ 7</span>
+              <span class="grade-D px-1.5 py-0.5 rounded font-mono text-[10px] font-bold">D ≥ 6</span>
+              <span class="grade-E px-1.5 py-0.5 rounded font-mono text-[10px] font-bold">E ≥ 5</span>
+              <span class="grade-F px-1.5 py-0.5 rounded font-mono text-[10px] font-bold">F &lt; 5</span>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-slate-100/75 border-b border-slate-200 text-slate-600 font-semibold uppercase">
+                  <th class="py-3 px-4 w-12 text-center">STT</th>
+                  <th class="py-3 px-4 w-28">MSSV</th>
+                  <th class="py-3 px-4 w-52">Họ và tên</th>
+                  <th class="py-3 px-4 w-36">Điểm số (bội số 0.5)</th>
+                  <th class="py-3 px-4 w-28 text-center">Điểm chữ</th>
+                  <th class="py-3 px-4">Nhận xét</th>
+                  <th class="py-3 px-4 w-20 text-center">Xóa</th>
+                </tr>
+              </thead>
+              <tbody id="ct-table-body" class="divide-y divide-slate-100">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="p-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-end">
+            <button onclick="window.uc03.luuBangDiem()" class="text-xs liquid-btn-primary text-white px-5 py-2 rounded-xl font-bold transition shadow-xs flex items-center space-x-1.5">
+              <i class="fa-solid fa-floppy-disk"></i>
+              <span>Lưu kết quả chấm</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== TAB 4: THỐNG KÊ & BÁO CÁO ==================== -->
+      <section id="view-baocao" class="tab-view hidden space-y-5 animate-fade-in">
+        <div class="app-card p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="font-extrabold text-sm text-slate-800">Báo cáo khảo thí năm học</h3>
+            <p class="text-xs text-slate-400 mt-0.5">Tổng hợp cơ cấu đề thi và kết quả chấm điểm</p>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <select id="bc-select-nam" class="p-2 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-amber-500 font-bold bg-white">
+              <!-- Loaded dynamically -->
+            </select>
+            <button onclick="window.uc05.lapBaoCao()" class="liquid-btn-primary text-white text-xs font-bold px-4 py-2 rounded-xl transition shadow-xs">
+              Lập báo cáo
+            </button>
+            <button onclick="window.print()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-3 py-2 rounded-xl transition border border-slate-200 flex items-center space-x-1">
+              <i class="fa-solid fa-print"></i>
+              <span>In</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 no-print">
+          <div class="app-card p-5">
+            <h4 class="font-bold text-xs text-slate-800 mb-3 flex items-center space-x-2">
+              <i class="fa-solid fa-chart-pie text-blue-600"></i>
+              <span>Cơ cấu Số lượng Đề thi theo Môn</span>
+            </h4>
+            <div class="h-60 relative">
+              <canvas id="chart-de-thi"></canvas>
+            </div>
+          </div>
+
+          <div class="app-card p-5">
+            <h4 class="font-bold text-xs text-slate-800 mb-3 flex items-center space-x-2">
+              <i class="fa-solid fa-chart-simple text-teal-600"></i>
+              <span>Số lượng Bài thi đã chấm theo Môn</span>
+            </h4>
+            <div class="h-60 relative">
+              <canvas id="chart-bai-cham"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Report Table -->
+        <div class="app-card overflow-hidden">
+          <div class="p-3.5 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+            <span class="font-bold text-xs text-slate-800 uppercase">Bảng số liệu tổng hợp</span>
+            <span class="text-[11px] text-slate-400 font-mono" id="bc-table-subtitle">Năm học: --</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-slate-100/75 border-b border-slate-200 text-slate-700 font-semibold uppercase">
+                  <th class="py-3 px-4 w-12 text-center">STT</th>
+                  <th class="py-3 px-4">Tên Môn</th>
+                  <th class="py-3 px-4 w-32 text-center">Số đề thi</th>
+                  <th class="py-3 px-4 w-32 text-center">Số bài chấm</th>
+                  <th class="py-3 px-4 w-32 text-center">Tỉ lệ đề thi</th>
+                  <th class="py-3 px-4 w-32 text-center">Tỉ lệ bài chấm</th>
+                </tr>
+              </thead>
+              <tbody id="bc-table-body" class="divide-y divide-slate-100">
+                <!-- Loaded dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ==================== MODAL: HỒ SƠ ĐỒ ÁN SE104 (Dành cho việc bảo vệ trước giáo viên) ==================== -->
+  <div id="modal-project-spec" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="glass-modal max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-fade-in">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 bg-gradient-to-r from-blue-700 to-indigo-800 text-white flex items-center justify-between">
+        <div>
+          <h3 class="font-extrabold text-sm sm:text-base flex items-center space-x-2">
+            <i class="fa-solid fa-circle-nodes"></i>
+            <span>Kiến Trúc Kỹ Thuật & Tài Liệu Nghiệp Vụ</span>
+          </h3>
+          <p class="text-xs text-blue-100 mt-0.5">Khoa Kỹ thuật Phần mềm • Đại học Công nghệ Thông tin (UIT) • Nhóm 30</p>
+        </div>
+        <button onclick="window.app.closeProjectSpecModal()" class="text-white/80 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto flex-1 space-y-6 text-xs text-slate-700 bg-slate-50/50">
+        
+        <!-- Info Banner -->
+        <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-2xs grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+          <div>
+            <div class="text-[10px] text-slate-400 uppercase font-bold">Hệ thống</div>
+            <div class="font-bold text-slate-800 text-xs mt-0.5">Khảo Thí & Chấm Thi</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-slate-400 uppercase font-bold">GV Hướng Dẫn</div>
+            <div class="font-bold text-slate-800 text-xs mt-0.5">TS. Nguyễn Thị Thu Hương</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-slate-400 uppercase font-bold">Lớp</div>
+            <div class="font-bold text-slate-800 text-xs mt-0.5">SE104.R13</div>
+          </div>
+          <div>
+            <div class="text-[10px] text-slate-400 uppercase font-bold">Nhóm thực hiện</div>
+            <div class="font-bold text-blue-700 text-xs mt-0.5">Nhóm 30 (Tây, Thịnh, Huy)</div>
+          </div>
+        </div>
+
+        <!-- Functions & Business Rules Table -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs space-y-3">
+          <h4 class="font-extrabold text-slate-900 text-sm flex items-center space-x-2">
+            <i class="fa-solid fa-table-list text-blue-600"></i>
+            <span>Bảng đối chiếu Phân hệ Chức năng & Ràng buộc Nghiệp vụ</span>
+          </h4>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-[11px]">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700 font-bold">
+                  <th class="py-2.5 px-3 rounded-l-lg">Phân hệ chức năng</th>
+                  <th class="py-2.5 px-3 text-center">Mẫu báo cáo</th>
+                  <th class="py-2.5 px-3 text-center">Ràng buộc dữ liệu</th>
+                  <th class="py-2.5 px-3">Mô tả xử lý nghiệp vụ</th>
+                  <th class="py-2.5 px-3 rounded-r-lg font-mono">Controller phụ trách</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100">
+                <tr>
+                  <td class="py-2.5 px-3 font-bold text-slate-800">Ngân hàng câu hỏi</td>
+                  <td class="py-2.5 px-3 text-center font-bold text-emerald-700">Mẫu câu hỏi (BM1)</td>
+                  <td class="py-2.5 px-3 text-center font-bold text-emerald-700">Bảo toàn đề thi</td>
+                  <td class="py-2.5 px-3">4 môn, 4 độ khó. Chỉ cho phép sửa/xóa khi câu hỏi <strong>chưa thuộc bất kỳ đề thi nào</strong>.</td>
+                  <td class="py-2.5 px-3 font-mono text-blue-600">routes/cauHoi.js</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-bold text-slate-800">Biên soạn đề thi</td>
+                  <td class="py-2.5 px-3 text-center font-bold text-blue-700">Đề thi chuẩn (BM2)</td>
+                  <td class="py-2.5 px-3 text-center font-bold text-blue-700">Cấu trúc & Điểm thi</td>
+                  <td class="py-2.5 px-3">1–5 câu cùng môn, 30–180 phút. Chỉ cho phép sửa/xóa khi đề <strong>chưa có kết quả chấm</strong>.</td>
+                  <td class="py-2.5 px-3 font-mono text-blue-600">routes/deThi.js</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-bold text-slate-800">Ghi nhận chấm thi</td>
+                  <td class="py-2.5 px-3 text-center font-bold text-indigo-700">Bảng điểm lớp (BM3)</td>
+                  <td class="py-2.5 px-3 text-center font-bold text-indigo-700">Thang điểm 0–10</td>
+                  <td class="py-2.5 px-3">Điểm số từ 0–10, <strong>bước điểm 0.5</strong>. Tự động quy đổi điểm chữ A, B, C, D, E, F.</td>
+                  <td class="py-2.5 px-3 font-mono text-blue-600">routes/chamThi.js</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-bold text-slate-800">Tra cứu & In ấn đề thi</td>
+                  <td class="py-2.5 px-3 text-center font-bold text-teal-700">Tra cứu đề (BM4)</td>
+                  <td class="py-2.5 px-3 text-center text-slate-400">Chuẩn hóa UIT</td>
+                  <td class="py-2.5 px-3">Tìm kiếm theo mã đề, môn, học kỳ, ngày thi, thời lượng. Xem trước và in đề thi chuẩn bộ môn.</td>
+                  <td class="py-2.5 px-3 font-mono text-blue-600">routes/deThi.js</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 font-bold text-slate-800">Lập báo cáo năm học</td>
+                  <td class="py-2.5 px-3 text-center font-bold text-amber-700">Báo cáo năm (BM5)</td>
+                  <td class="py-2.5 px-3 text-center text-slate-400">Công thức (1.1) & (1.2)</td>
+                  <td class="py-2.5 px-3">Tổng số đề, số bài chấm, tỉ lệ theo môn tính toán chuẩn xác theo công thức báo cáo.</td>
+                  <td class="py-2.5 px-3 font-mono text-blue-600">routes/baoCao.js</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Quick Diagram Opener -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-2xs space-y-3">
+          <div class="flex items-center justify-between">
+            <h4 class="font-extrabold text-slate-900 text-sm flex items-center space-x-2">
+              <i class="fa-solid fa-sitemap text-indigo-600"></i>
+              <span>Sơ đồ kiến trúc & CSDL (Hình đồ trong báo cáo)</span>
+            </h4>
+            <span class="text-slate-400 text-[11px]">Bấm vào để mở ảnh phóng to</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <button onclick="window.app.openDiagramModal('erd')" class="p-3 rounded-xl bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 text-left transition">
+              <span class="font-bold text-indigo-900 block">Biểu đồ ERD (CSDL)</span>
+              <span class="text-[10px] text-slate-500">Hình 2.18 • 7 bảng quan hệ</span>
+            </button>
+
+            <button onclick="window.app.openDiagramModal('class-diagram')" class="p-3 rounded-xl bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 text-left transition">
+              <span class="font-bold text-indigo-900 block">Biểu đồ Lớp (Class Diagram)</span>
+              <span class="text-[10px] text-slate-500">Hình 2.17 • Lớp phân tích</span>
+            </button>
+
+            <button onclick="window.app.openDiagramModal('usecase-overview')" class="p-3 rounded-xl bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 text-left transition">
+              <span class="font-bold text-indigo-900 block">Biểu đồ Use Case</span>
+              <span class="text-[10px] text-slate-500">Hình 2.1 • 5 Use Case chính</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: XEM SƠ ĐỒ PHÓNG TO (DIAGRAM VIEWER) ==================== -->
+  <div id="modal-diagram-viewer" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4">
+    <div class="glass-modal max-w-4xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-fade-in">
+      <div class="px-5 py-3.5 bg-slate-100/70 border-b border-slate-200/80 flex items-center justify-between">
+        <h3 class="font-extrabold text-slate-800 text-xs sm:text-sm" id="modal-diag-title">Sơ Đồ Hệ Thống</h3>
+        <button onclick="window.app.closeDiagramModal()" class="text-slate-400 hover:text-slate-600 text-sm">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto flex-1 flex flex-col items-center justify-center bg-slate-50/50">
+        <div class="glass-card p-4 shadow-sm border border-slate-200/80 max-w-full">
+          <img id="modal-diag-img" src="assets/diagrams/erd.png" alt="Diagram" class="max-h-[68vh] object-contain mx-auto rounded-xl">
+        </div>
+        <p class="text-xs text-slate-500 font-medium mt-3" id="modal-diag-caption">
+          Hình 2.18 Biểu đồ thực thể liên kết (ERD)
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: THÊM CÂU HỎI ==================== -->
+  <div id="modal-cauhoi" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-modal max-w-lg w-full overflow-hidden animate-fade-in">
+      <div class="px-6 py-4 bg-slate-100/70 border-b border-slate-200/80 flex items-center justify-between">
+        <h3 class="font-extrabold text-slate-800 text-xs sm:text-sm" id="modal-ch-title">Soạn câu hỏi mới</h3>
+        <button onclick="window.uc01.closeModal()" class="text-slate-400 hover:text-slate-600 text-sm">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="form-cauhoi" onsubmit="window.uc01.submitForm(event)" class="p-6 space-y-4">
+        <input type="hidden" id="modal-ch-mode" value="create">
+        
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Mã câu hỏi (Tự động hoặc tự nhập)</label>
+          <input type="text" id="modal-ch-made" placeholder="Ví dụ: CH_SE104_07" class="w-full p-2.5 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 font-mono">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Môn học <span class="text-red-500">*</span></label>
+            <select id="modal-ch-mon" required class="w-full p-2.5 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500">
+              <!-- loaded dynamically -->
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Độ khó <span class="text-red-500">*</span></label>
+            <select id="modal-ch-dokho" required class="w-full p-2.5 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500">
+              <option value="Dễ">Dễ</option>
+              <option value="Trung Bình" selected>Trung Bình</option>
+              <option value="Phức Tạp">Phức Tạp</option>
+              <option value="Khó">Khó</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">Nội dung câu hỏi <span class="text-red-500">*</span></label>
+          <textarea id="modal-ch-noidung" required rows="4" placeholder="Nhập nội dung câu hỏi..." class="w-full p-3 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500"></textarea>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end space-x-2">
+          <button type="button" onclick="window.uc01.closeModal()" class="px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition">Hủy bỏ</button>
+          <button type="submit" class="px-5 py-2 text-xs font-bold text-white liquid-btn-primary rounded-xl shadow-xs transition">Lưu câu hỏi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: TẠO ĐỀ THI ==================== -->
+  <div id="modal-dethi" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-modal max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-fade-in">
+      <div class="px-6 py-4 bg-slate-100/70 border-b border-slate-200/80 flex items-center justify-between">
+        <h3 class="font-extrabold text-slate-800 text-xs sm:text-sm" id="modal-dt-title">Tạo đề thi mới</h3>
+        <button onclick="window.uc02.closeModal()" class="text-slate-400 hover:text-slate-600 text-sm">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="form-dethi" onsubmit="window.uc02.submitForm(event)" class="p-6 space-y-4 overflow-y-auto flex-1">
+        <input type="hidden" id="modal-dt-mode" value="create">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Mã đề thi <span class="text-red-500">*</span></label>
+            <input type="text" id="modal-dt-made" required placeholder="Ví dụ: SE104_K1_2025" class="w-full p-2.5 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 font-mono">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Môn thi <span class="text-red-500">*</span></label>
+            <select id="modal-dt-mon" required onchange="window.uc02.onMonChange()" class="w-full p-2.5 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500">
+              <!-- loaded dynamically -->
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Học kỳ <span class="text-red-500">*</span></label>
+            <select id="modal-dt-hocky" required class="w-full p-2 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500">
+              <option value="Học kỳ 1">Học kỳ 1</option>
+              <option value="Học kỳ 2">Học kỳ 2</option>
+              <option value="Học kỳ Hè">Học kỳ Hè</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Năm học <span class="text-red-500">*</span></label>
+            <input type="text" id="modal-dt-namhoc" required value="2024-2025" class="w-full p-2 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Ngày thi <span class="text-red-500">*</span></label>
+            <input type="date" id="modal-dt-ngaythi" required class="w-full p-2 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">
+            Thời lượng thi (30 đến 180 phút) <span class="text-red-500">*</span>
+          </label>
+          <div class="flex items-center space-x-2">
+            <input type="number" id="modal-dt-thoiluong" required min="30" max="180" value="90" class="w-28 p-2 text-xs border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold font-mono">
+            <span class="text-xs text-slate-500">phút</span>
+          </div>
+        </div>
+
+        <!-- Question Picker Box -->
+        <div class="border border-slate-200 rounded-2xl p-4 bg-slate-50/70 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-extrabold text-slate-800">
+              Chọn câu hỏi cho đề thi (tối đa 5 câu) <span class="text-red-500">*</span>
+            </label>
+            <span id="modal-dt-count-pill" class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-700">
+              Đã chọn: 0/5 câu
+            </span>
+          </div>
+
+          <div id="modal-dt-questions-list" class="max-h-52 overflow-y-auto space-y-2 pr-1">
+            <div class="text-xs text-slate-400 py-3 text-center">Đang tải câu hỏi...</div>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end space-x-2">
+          <button type="button" onclick="window.uc02.closeModal()" class="px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition">Hủy bỏ</button>
+          <button type="submit" class="px-5 py-2 text-xs font-bold text-white liquid-btn-primary rounded-xl shadow-xs transition">Lưu đề thi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: XEM ĐỀ THI IN ==================== -->
+  <div id="modal-preview-dethi" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-modal max-w-3xl w-full max-h-[92vh] flex flex-col overflow-hidden animate-fade-in">
+      <div class="px-6 py-3.5 bg-slate-100/70 border-b border-slate-200/80 flex items-center justify-between no-print">
+        <span class="text-xs font-bold text-slate-700 flex items-center space-x-2">
+          <i class="fa-solid fa-file-invoice text-blue-600"></i>
+          <span>XEM CHI TIẾT ĐỀ THI</span>
+        </span>
+        <div class="flex items-center space-x-2">
+          <button onclick="window.print()" class="text-xs bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-xl font-bold transition flex items-center space-x-1">
+            <i class="fa-solid fa-print"></i>
+            <span>In đề thi</span>
+          </button>
+          <button onclick="window.uc04.closePreviewModal()" class="text-slate-400 hover:text-slate-600 text-sm ml-2">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="preview-dethi-content" class="p-8 overflow-y-auto flex-1 font-serif text-slate-900 bg-white">
+        <!-- Rendered by uc04.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: XÁC NHẬN XÓA ==================== -->
+  <div id="modal-confirm" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-md hidden flex items-center justify-center p-4">
+    <div class="glass-modal max-w-sm w-full p-6 text-center space-y-4 animate-fade-in">
+      <div class="w-12 h-12 rounded-full bg-red-100 text-red-600 flex items-center justify-center mx-auto text-xl">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <div>
+        <h4 class="font-bold text-slate-800 text-base" id="modal-confirm-title">Xác nhận thao tác</h4>
+        <p class="text-xs text-slate-600 mt-2 leading-relaxed" id="modal-confirm-message">Bạn có chắc chắn muốn thực hiện thao tác này không?</p>
+      </div>
+      <div class="flex items-center justify-center space-x-2 pt-2">
+        <button id="modal-confirm-cancel" class="px-4 py-2 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl transition">Hủy bỏ</button>
+        <button id="modal-confirm-ok" class="px-4 py-2 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl transition shadow-xs">Xác nhận xóa</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS -->
+  <div id="toast-container"></div>
+
+  <!-- SCRIPTS -->
+  <script src="js/app.js"></script>
+  <script src="js/uc01_cauHoi.js"></script>
+  <script src="js/uc02_deThi.js"></script>
+  <script src="js/uc03_chamThi.js"></script>
+  <script src="js/uc04_traCuu.js"></script>
+  <script src="js/uc05_baoCao.js"></script>
+</body>
+</html>
