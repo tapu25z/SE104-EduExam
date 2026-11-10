@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mxfile host="Electron" agent="Antigravity" version="21.0.0" type="device">
+  <diagram id="Hình_2_9_Biểu_đồ_hoạt_động_UC00" name="Hình 2.9 Biểu đồ hoạt động UC00">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="l_act" value="Người dùng" style="swimlane;startSize=35;horizontal=1;html=1;fillColor=#F1F5F9;swimlaneFillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=15;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="40" y="40" width="340" height="710.0" />
+        </mxCell>
+        <mxCell id="l_sys" value="Hệ thống" style="swimlane;startSize=35;horizontal=1;html=1;fillColor=#F1F5F9;swimlaneFillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=15;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="380" y="40" width="430" height="710.0" />
+        </mxCell>
+        <mxCell id="start" value="" style="ellipse;fillColor=#000000;strokeColor=#000000;html=1;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="190" y="90" width="30" height="30" />
+        </mxCell>
+        <mxCell id="a1" value="Chọn chức năng ĐĂNG NHẬP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;arcSize=20;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="105" y="150" width="200" height="45" />
+        </mxCell>
+        <mxCell id="a2" value="Nhập Tên đăng nhập và Mật khẩu" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;arcSize=20;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="95" y="225" width="220" height="45" />
+        </mxCell>
+        <mxCell id="a3" value="Nhấn nút 'Đăng nhập'" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;arcSize=20;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="115" y="300" width="180" height="45" />
+        </mxCell>
+        <mxCell id="s1" value="Tiếp nhận thông tin xác thực" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;arcSize=20;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="480" y="300" width="220" height="45" />
+        </mxCell>
+        <mxCell id="s2" value="Kiểm tra tài khoản, mật khẩu băm&#10;và trạng thái hoạt động" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;arcSize=20;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="470" y="375" width="240" height="50" />
+        </mxCell>
+        <mxCell id="d1" value="Hợp lệ?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="550" y="455" width="80" height="50" />
+        </mxCell>
+        <mxCell id="s_err" value="Báo lỗi đăng nhập không đúng&#10;hoặc tài khoản bị khóa" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;arcSize=20;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="470" y="535" width="240" height="45" />
+        </mxCell>
+        <mxCell id="s_ok" value="Khởi tạo phiên làm việc&#10;và phân quyền theo vai trò" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;arcSize=20;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="470" y="605" width="240" height="50" />
+        </mxCell>
+        <mxCell id="a_ok" value="Truy cập giao diện chức năng&#10;tương ứng với vai trò" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;arcSize=20;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="95" y="605" width="220" height="50" />
+        </mxCell>
+        <mxCell id="end" value="" style="ellipse;html=1;shape=endState;fillColor=#000000;strokeColor=#000000;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="190" y="685" width="30" height="30" />
+        </mxCell>
+        <mxCell id="f0" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="205.0" y="120.0" />
+            <mxPoint as="targetPoint" x="205.0" y="150.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="205.0" y="195.0" />
+            <mxPoint as="targetPoint" x="205.0" y="225.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="205.0" y="270.0" />
+            <mxPoint as="targetPoint" x="205.0" y="300.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="295.0" y="322.5" />
+            <mxPoint as="targetPoint" x="480.0" y="322.5" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="590.0" y="345.0" />
+            <mxPoint as="targetPoint" x="590.0" y="375.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="590.0" y="425.0" />
+            <mxPoint as="targetPoint" x="590.0" y="455.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f_fail" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="590.0" y="505.0" />
+            <mxPoint as="targetPoint" x="590.0" y="535.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f_retry" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="730" y="557" />
+              <mxPoint x="730" y="247" />
+            </Array>
+            <mxPoint as="sourcePoint" x="710.0" y="557.5" />
+            <Array as="points">
+              <mxPoint x="730.0" y="557.0" />
+              <mxPoint x="730.0" y="247.0" />
+            </Array>
+            <mxPoint as="targetPoint" x="315.0" y="247.5" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f_pass" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="630.0" y="480.0" />
+            <Array as="points">
+              <mxPoint x="780" y="480.0" />
+              <mxPoint x="780" y="630.0" />
+            </Array>
+            <mxPoint as="targetPoint" x="710.0" y="630.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f_view" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="470.0" y="630.0" />
+            <mxPoint as="targetPoint" x="315.0" y="630.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="f_end" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;endArrow=block;endFill=1;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="205.0" y="655.0" />
+            <mxPoint as="targetPoint" x="205.0" y="685.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="guard_fail" value="[Không]" style="text;html=1;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Times New Roman;fontSize=12;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="550.0" y="507.0" width="80" height="20" />
+        </mxCell>
+        <mxCell id="guard_pass" value="[Hợp lệ]" style="text;html=1;strokeColor=none;fillColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Times New Roman;fontSize=12;fontColor=#000000;" vertex="1" parent="1">
+          <mxGeometry as="geometry" x="635.0" y="468.0" width="82" height="22" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

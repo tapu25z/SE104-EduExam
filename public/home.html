@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduExam — Nền tảng Ra đề & Chấm thi Trực tuyến</title>
+    <link rel="icon" type="image/jpeg" href="assets/eduexam-icon.jpg">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FFFFFF;
+            color: #0F172A;
+            overflow-x: hidden;
+        }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+        .subtle-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(226, 232, 240, 0.5) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(226, 232, 240, 0.5) 1px, transparent 1px);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-600 selection:text-white">
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-xs w-full pointer-events-none"></div>
+
+    <!-- ================= 1. NAVBAR THƯƠNG MẠI ================= -->
+    <header class="sticky top-0 z-40 glass-nav border-b border-slate-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <!-- Brand -->
+            <a href="/" class="flex items-center group">
+                <img src="assets/eduexam-logo.jpg" alt="EduExam" class="h-9 w-auto object-contain">
+            </a>
+
+            <!-- Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-500">
+                <a href="#tinh-nang" class="hover:text-slate-900 transition-colors">Tính năng</a>
+                <a href="#giai-phap" class="hover:text-slate-900 transition-colors">Giải pháp</a>
+                <a href="#trai-nghiem" class="hover:text-slate-900 transition-colors">Trải nghiệm</a>
+                <a href="#ho-tro" class="hover:text-slate-900 transition-colors">Hỗ trợ</a>
+            </nav>
+
+            <!-- Auth Buttons -->
+            <div id="navAuthArea" class="flex items-center gap-2.5">
+                <a href="/login" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-all cursor-pointer">
+                    Đăng nhập
+                </a>
+                <a href="/login?tab=register" class="px-4 py-2 rounded-xl text-sm font-semibold text-white bg-slate-900 hover:bg-brand-600 shadow-xs transition-all cursor-pointer">
+                    Đăng ký
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= 2. HERO SECTION ================= -->
+    <section class="relative subtle-grid pt-16 pb-20 sm:pt-24 sm:pb-28 border-b border-slate-100">
+        <div class="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-brand-50/60 to-transparent pointer-events-none"></div>
+
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 relative z-10 text-center">
+            <!-- Pill Badge -->
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-xs font-semibold mb-6 shadow-2xs">
+                <span class="w-1.5 h-1.5 rounded-full bg-brand-600 animate-pulse"></span>
+                <span>Nền tảng khảo thí thế hệ mới cho Giảng viên & Nhà trường</span>
+            </div>
+
+            <!-- Headline -->
+            <h1 class="font-display text-4xl sm:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.12] max-w-3xl mx-auto">
+                Soạn đề và chấm thi <br class="hidden sm:inline" />
+                <span class="text-brand-600">chỉ trong vài phút.</span>
+            </h1>
+
+            <!-- Short Subtitle -->
+            <p class="text-base sm:text-lg text-slate-500 max-w-2xl mx-auto mt-5 leading-relaxed">
+                Quản lý ngân hàng câu hỏi, tạo đề thi chuẩn xác và tự động hóa bảng điểm sinh viên trên một không gian làm việc số duy nhất, tối ưu hiệu suất giảng dạy.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div id="heroCtaArea" class="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
+                <button onclick="handleHeroStart()" class="w-full sm:w-auto px-6 py-3.5 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-lg shadow-brand-600/25 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer">
+                    <span id="heroCtaText">Bắt đầu ngay</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+                <a href="#trai-nghiem" class="w-full sm:w-auto px-6 py-3.5 rounded-xl text-sm font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 transition-all flex items-center justify-center gap-2">
+                    <i data-lucide="play" class="w-4 h-4 text-brand-600"></i>
+                    <span>Khám phá tính năng</span>
+                </a>
+            </div>
+
+            <!-- Minimalist App Preview Mockup -->
+            <div class="mt-14 max-w-4xl mx-auto">
+                <div class="rounded-2xl bg-white border border-slate-200/90 shadow-2xl shadow-slate-900/10 overflow-hidden text-left transition-all hover:border-brand-200">
+                    <!-- Window Bar -->
+                    <div class="px-4 py-3 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+                        <div class="flex items-center gap-1.5">
+                            <span class="w-2.5 h-2.5 rounded-full bg-slate-300"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-slate-300"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-slate-300"></span>
+                        </div>
+                        <a href="/app" class="text-xs font-medium text-slate-400 hover:text-brand-600 flex items-center gap-1">
+                            <span>app.eduexam.vn/dashboard</span>
+                            <i data-lucide="external-link" class="w-3 h-3"></i>
+                        </a>
+                        <span class="px-2 py-0.5 text-[11px] font-semibold bg-emerald-50 text-emerald-600 rounded-md flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            Đã đồng bộ
+                        </span>
+                    </div>
+
+                    <!-- Clean Workspace Mockup -->
+                    <div class="p-6 sm:p-8 grid grid-cols-1 md:grid-cols-3 gap-6 bg-white">
+                        <!-- Left: Quick Stats -->
+                        <div class="space-y-4 md:border-r md:border-slate-100 md:pr-6">
+                            <div>
+                                <p class="text-xs font-medium text-slate-400 uppercase tracking-wider">Học kỳ hiện tại</p>
+                                <p class="font-display font-bold text-lg text-slate-900 mt-0.5">Kỳ thi Cuối kỳ 2026</p>
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100">
+                                    <p class="font-display font-extrabold text-2xl text-slate-900">128</p>
+                                    <p class="text-xs text-slate-500 mt-0.5">Câu hỏi</p>
+                                </div>
+                                <div class="p-3.5 rounded-xl bg-brand-50/70 border border-brand-100/50">
+                                    <p class="font-display font-extrabold text-2xl text-brand-600">12</p>
+                                    <p class="text-xs text-slate-500 mt-0.5">Đề thi</p>
+                                </div>
+                            </div>
+                            <div class="p-3.5 rounded-xl border border-slate-100 flex items-center justify-between">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                                        <i data-lucide="check" class="w-4 h-4"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-semibold text-slate-800">Tỷ lệ hoàn tất</p>
+                                        <p class="text-[11px] text-slate-400">450 bài chấm</p>
+                                    </div>
+                                </div>
+                                <span class="font-display font-bold text-sm text-emerald-600">98%</span>
+                            </div>
+                            <a href="/app" class="block w-full py-2 text-center text-xs font-semibold text-brand-600 hover:bg-brand-50 rounded-lg border border-brand-200 transition-colors">
+                                Mở không gian làm việc →
+                            </a>
+                        </div>
+
+                        <!-- Right: Clean Question & Exam List -->
+                        <div class="md:col-span-2 space-y-3">
+                            <div class="flex items-center justify-between pb-2">
+                                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Đề thi gần đây</span>
+                                <span class="text-xs font-semibold text-brand-600">Thang điểm 10.0</span>
+                            </div>
+
+                            <div class="p-3.5 rounded-xl border border-slate-100 hover:border-slate-200 hover:bg-slate-50/50 flex items-center justify-between transition-all">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center font-bold text-xs">01</div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-900">Lập trình Hướng đối tượng — Đề A</p>
+                                        <p class="text-xs text-slate-400">90 phút • 4 câu hỏi</p>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700">10.0 điểm</span>
+                            </div>
+
+                            <div class="p-3.5 rounded-xl border border-slate-100 hover:border-slate-200 hover:bg-slate-50/50 flex items-center justify-between transition-all">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center font-bold text-xs">02</div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-900">Cấu trúc Dữ liệu & Giải thuật</p>
+                                        <p class="text-xs text-slate-400">120 phút • 5 câu hỏi</p>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-700">10.0 điểm</span>
+                            </div>
+
+                            <div class="p-3.5 rounded-xl border border-slate-100 hover:border-slate-200 hover:bg-slate-50/50 flex items-center justify-between transition-all">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-xs">03</div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-900">Nhập môn Công nghệ Phần mềm</p>
+                                        <p class="text-xs text-slate-400">60 phút • 3 câu hỏi</p>
+                                    </div>
+                                </div>
+                                <span class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-700">Đã chấm xong</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 3. BA TÍNH NĂNG CỐT LÕI ================= -->
+    <section id="tinh-nang" class="py-20 sm:py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-xl mx-auto mb-14">
+                <span class="text-xs font-bold uppercase tracking-wider text-brand-600">Tính năng vượt trội</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
+                    Mọi công cụ bạn cần cho kỳ thi
+                </h2>
+                <p class="text-sm sm:text-base text-slate-500 mt-2">
+                    Thiết kế tinh gọn để giảng viên tập trung vào chuyên môn thay vì thủ tục giấy tờ.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="p-7 rounded-2xl bg-slate-50/70 border border-slate-100 hover:border-slate-200 hover:shadow-lg hover:shadow-slate-200/40 transition-all group">
+                    <div class="w-11 h-11 rounded-xl bg-brand-600 text-white flex items-center justify-center mb-5 group-hover:scale-105 transition-transform shadow-xs shadow-brand-600/30">
+                        <i data-lucide="book-open-check" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Ngân hàng câu hỏi</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        Lưu trữ câu hỏi và đáp án theo từng môn học và cấp độ khó rõ ràng. Bảo vệ dữ liệu câu hỏi đã thuộc đề thi để đảm bảo tính toàn vẹn.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="p-7 rounded-2xl bg-slate-50/70 border border-slate-100 hover:border-slate-200 hover:shadow-lg hover:shadow-slate-200/40 transition-all group">
+                    <div class="w-11 h-11 rounded-xl bg-brand-600 text-white flex items-center justify-center mb-5 group-hover:scale-105 transition-transform shadow-xs shadow-brand-600/30">
+                        <i data-lucide="file-text" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Tạo đề thi chuẩn xác</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        Chọn câu hỏi nhanh, tự động cân đối thang điểm 10.0, cấu hình thời gian làm bài và xuất bản in đề thi chính thức đẹp mắt.
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="p-7 rounded-2xl bg-slate-50/70 border border-slate-100 hover:border-slate-200 hover:shadow-lg hover:shadow-slate-200/40 transition-all group">
+                    <div class="w-11 h-11 rounded-xl bg-brand-600 text-white flex items-center justify-center mb-5 group-hover:scale-105 transition-transform shadow-xs shadow-brand-600/30">
+                        <i data-lucide="bar-chart-3" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="font-display font-bold text-lg text-slate-900 mb-2">Chấm điểm & Báo cáo</h3>
+                    <p class="text-sm text-slate-500 leading-relaxed">
+                        Nhập điểm thi theo từng lớp học, tự động quy đổi thang điểm chữ A–F và thống kê biểu đồ kết quả kỳ thi trực quan.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 4. GIẢI PHÁP & GIÁ TRỊ VẬN HÀNH ================= -->
+    <section id="giai-phap" class="py-20 bg-slate-50/70 border-t border-slate-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center max-w-xl mx-auto mb-14">
+                <span class="text-xs font-bold uppercase tracking-wider text-brand-600">Tại sao chọn EduExam</span>
+                <h2 class="font-display text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">
+                    Chuẩn hóa toàn diện quy trình khảo thí
+                </h2>
+                <p class="text-sm sm:text-base text-slate-500 mt-2">
+                    Nâng cao độ chính xác, bảo mật dữ liệu thi và giảm tải hơn 80% thời gian hành chính.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-2xs space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+                        <i data-lucide="shield-check" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="font-display font-bold text-base text-slate-900">Bảo mật & Toàn vẹn dữ liệu</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Cơ chế khóa an toàn thông minh: Đề thi đã phát hành hoặc có bài chấm sẽ không thể chỉnh sửa sai lệch, bảo vệ tuyệt đối kết quả của sinh viên.
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-2xs space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center font-bold">
+                        <i data-lucide="sliders" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="font-display font-bold text-base text-slate-900">Thang điểm chuẩn hóa linh hoạt</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Hỗ trợ bước điểm 0.5 chính xác, tự động phân loại học lực và ánh xạ sang thang điểm chữ A–F theo chuẩn kiểm định giáo dục đại học.
+                    </p>
+                </div>
+
+                <div class="p-6 rounded-2xl bg-white border border-slate-200/80 shadow-2xs space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+                        <i data-lucide="clock" class="w-5 h-5"></i>
+                    </div>
+                    <h4 class="font-display font-bold text-base text-slate-900">Tiết kiệm 80% thời gian</h4>
+                    <p class="text-xs text-slate-500 leading-relaxed">
+                        Loại bỏ việc nhập liệu thủ công trên nhiều file rời rạc. Tự động hóa tổng hợp sổ điểm, tính tỉ lệ đạt và xuất báo cáo khảo thí định kỳ.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Metrics Counter -->
+            <div class="mt-14 p-8 rounded-3xl bg-white border border-slate-200/80 shadow-xs grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                <div>
+                    <p class="font-display font-extrabold text-3xl sm:text-4xl text-slate-900">10,000+</p>
+                    <p class="text-xs text-slate-500 mt-1">Câu hỏi được lưu trữ</p>
+                </div>
+                <div>
+                    <p class="font-display font-extrabold text-3xl sm:text-4xl text-brand-600">1,200+</p>
+                    <p class="text-xs text-slate-500 mt-1">Đề thi đã biên soạn</p>
+                </div>
+                <div>
+                    <p class="font-display font-extrabold text-3xl sm:text-4xl text-emerald-600">99.9%</p>
+                    <p class="text-xs text-slate-500 mt-1">Độ chính xác quy đổi điểm</p>
+                </div>
+                <div>
+                    <p class="font-display font-extrabold text-3xl sm:text-4xl text-slate-900">24/7</p>
+                    <p class="text-xs text-slate-500 mt-1">Vận hành ổn định & mượt mà</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 5. WIDGET DÙNG THỬ SIÊU GỌN ================= -->
+    <section id="trai-nghiem" class="py-16 sm:py-20 bg-slate-50 border-y border-slate-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-10 shadow-sm">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
+                    <div class="space-y-3 max-w-sm">
+                        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-brand-50 text-brand-700 text-xs font-bold">
+                            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-600"></i>
+                            <span>Trải nghiệm nhanh</span>
+                        </div>
+                        <h3 class="font-display text-2xl font-extrabold text-slate-900">Quy đổi điểm tự động</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">
+                            Kéo thanh trượt hoặc chọn các mốc điểm để xem cách EduExam tự động phân loại học lực và điểm chữ chuẩn xác cho sinh viên.
+                        </p>
+
+                        <!-- Quick Presets -->
+                        <div class="pt-2 flex flex-wrap gap-1.5">
+                            <button onclick="setPresetScore(9.5)" class="px-2.5 py-1 text-xs rounded-lg bg-slate-100 hover:bg-slate-200 font-semibold text-slate-700 cursor-pointer">9.5 (A)</button>
+                            <button onclick="setPresetScore(8.5)" class="px-2.5 py-1 text-xs rounded-lg bg-slate-100 hover:bg-slate-200 font-semibold text-slate-700 cursor-pointer">8.5 (B)</button>
+                            <button onclick="setPresetScore(7.0)" class="px-2.5 py-1 text-xs rounded-lg bg-slate-100 hover:bg-slate-200 font-semibold text-slate-700 cursor-pointer">7.0 (C)</button>
+                            <button onclick="setPresetScore(6.0)" class="px-2.5 py-1 text-xs rounded-lg bg-slate-100 hover:bg-slate-200 font-semibold text-slate-700 cursor-pointer">6.0 (D)</button>
+                            <button onclick="setPresetScore(5.0)" class="px-2.5 py-1 text-xs rounded-lg bg-slate-100 hover:bg-slate-200 font-semibold text-slate-700 cursor-pointer">5.0 (E)</button>
+                            <button onclick="setPresetScore(3.5)" class="px-2.5 py-1 text-xs rounded-lg bg-slate-100 hover:bg-slate-200 font-semibold text-slate-700 cursor-pointer">3.5 (F)</button>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Mini Widget -->
+                    <div class="flex-1 bg-slate-50 p-6 rounded-2xl border border-slate-100 space-y-5">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-xs font-medium text-slate-400">Điểm số</span>
+                                <p id="calcScoreValue" class="font-display text-3xl font-extrabold text-slate-900">8.5</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-xs font-medium text-slate-400">Xếp loại & Điểm chữ</span>
+                                <div class="flex items-center gap-2 mt-0.5 justify-end">
+                                    <span id="calcRankText" class="text-xs font-semibold text-slate-600">Giỏi</span>
+                                    <span id="calcLetterBadge" class="w-10 h-10 rounded-xl bg-brand-600 text-white font-display font-bold text-lg flex items-center justify-center shadow-xs transition-colors">B</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <input id="calcSlider" type="range" min="0" max="10" step="0.5" value="8.5" oninput="updateScoreCalc(this.value)"
+                                class="w-full accent-brand-600 cursor-pointer h-2 bg-slate-200 rounded-lg">
+                            <div class="flex justify-between text-[11px] font-medium text-slate-400 mt-2">
+                                <span>0.0 (F)</span>
+                                <span>5.0 (E)</span>
+                                <span>6.0 (D)</span>
+                                <span>7.0 (C)</span>
+                                <span>8.0 (B)</span>
+                                <span>9.0 (A)</span>
+                                <span>10.0</span>
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-white rounded-xl border border-slate-100 text-xs text-slate-500 flex items-center gap-2">
+                            <i data-lucide="info" class="w-4 h-4 text-brand-600 shrink-0"></i>
+                            <span id="calcExplanation">Điểm 8.5 thuộc khoảng [8.0 - 8.5]: Đạt loại <b>Giỏi</b>, quy đổi điểm chữ <b>B</b>.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 6. BẮT ĐẦU SỬ DỤNG ================= -->
+    <section id="ho-tro" class="py-20 bg-slate-50 text-center border-t border-slate-100">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 space-y-5">
+            <h2 class="font-display text-3xl font-extrabold text-slate-900">
+                Sẵn sàng tối ưu công việc giảng dạy?
+            </h2>
+            <p class="text-sm sm:text-base text-slate-500">
+                Tạo tài khoản hoặc đăng nhập để bắt đầu xây dựng ngân hàng đề thi và quản lý điểm số.
+            </p>
+            <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <a href="/login?tab=register" class="w-full sm:w-auto px-6 py-3 rounded-xl text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-md shadow-brand-600/20 transition-all text-center">
+                    Tạo tài khoản
+                </a>
+                <a href="/login" class="w-full sm:w-auto px-6 py-3 rounded-xl text-sm font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 transition-all text-center">
+                    Đăng nhập
+                </a>
+                <a href="/app" class="w-full sm:w-auto px-6 py-3 rounded-xl text-sm font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 transition-all">
+                    Vào ứng dụng →
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="border-t border-slate-200/80 py-10 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-6 border-b border-slate-100">
+                <div class="space-y-2 text-center md:text-left">
+                    <img src="assets/eduexam-logo.jpg" alt="EduExam" class="h-8 w-auto object-contain mx-auto md:mx-0">
+                    <p class="text-xs text-slate-500 leading-relaxed max-w-sm">
+                        Nền tảng hỗ trợ ra đề thi, ngân hàng câu hỏi và tự động hóa tính điểm trực tuyến.
+                    </p>
+                </div>
+                <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-600 font-medium">
+                    <a href="#tinh-nang" class="hover:text-slate-900 transition-colors">Tính năng</a>
+                    <a href="#giai-phap" class="hover:text-slate-900 transition-colors">Giải pháp</a>
+                    <a href="#trai-nghiem" class="hover:text-slate-900 transition-colors">Quy đổi điểm</a>
+                    <a href="#ho-tro" class="hover:text-slate-900 transition-colors">Bắt đầu</a>
+                    <a href="/app" class="hover:text-brand-600 font-semibold transition-colors">Ứng dụng</a>
+                </div>
+            </div>
+
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-400">
+                <p>© 2026 EduExam. Bảo lưu mọi quyền.</p>
+                <p>Nền tảng Quản lý Khảo thí & Chấm thi Trực tuyến</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= SCRIPT LOGIC ================= -->
+    <script>
+        let currentUser = null;
+
+        // 1. Interactive Grade Logic
+        function updateScoreCalc(val) {
+            const num = parseFloat(val);
+            document.getElementById('calcScoreValue').textContent = num.toFixed(1);
+
+            let letter = 'F';
+            let rank = 'Chưa đạt';
+            let badgeBg = 'bg-rose-600';
+            let note = `Điểm ${num.toFixed(1)} < 5.0: Chưa đạt, quy đổi điểm chữ F.`;
+
+            if (num >= 9.0) {
+                letter = 'A';
+                rank = 'Xuất sắc';
+                badgeBg = 'bg-emerald-600';
+                note = `Điểm ${num.toFixed(1)} thuộc khoảng [9.0 - 10.0]: Đạt loại Xuất sắc, quy đổi điểm chữ A.`;
+            } else if (num >= 8.0) {
+                letter = 'B';
+                rank = 'Giỏi';
+                badgeBg = 'bg-indigo-600';
+                note = `Điểm ${num.toFixed(1)} thuộc khoảng [8.0 - 8.5]: Đạt loại Giỏi, quy đổi điểm chữ B.`;
+            } else if (num >= 7.0) {
+                letter = 'C';
+                rank = 'Khá';
+                badgeBg = 'bg-blue-600';
+                note = `Điểm ${num.toFixed(1)} thuộc khoảng [7.0 - 7.5]: Đạt loại Khá, quy đổi điểm chữ C.`;
+            } else if (num >= 6.0) {
+                letter = 'D';
+                rank = 'Trung bình khá';
+                badgeBg = 'bg-amber-600';
+                note = `Điểm ${num.toFixed(1)} thuộc khoảng [6.0 - 6.5]: Đạt loại Trung bình khá, quy đổi điểm chữ D.`;
+            } else if (num >= 5.0) {
+                letter = 'E';
+                rank = 'Trung bình';
+                badgeBg = 'bg-orange-600';
+                note = `Điểm ${num.toFixed(1)} thuộc khoảng [5.0 - 5.5]: Đạt loại Trung bình, quy đổi điểm chữ E.`;
+            }
+
+            const badge = document.getElementById('calcLetterBadge');
+            badge.textContent = letter;
+            badge.className = `w-10 h-10 rounded-xl ${badgeBg} text-white font-display font-bold text-lg flex items-center justify-center shadow-xs transition-all duration-200`;
+
+            document.getElementById('calcRankText').textContent = rank;
+            document.getElementById('calcExplanation').innerHTML = note;
+        }
+
+        function setPresetScore(score) {
+            const slider = document.getElementById('calcSlider');
+            slider.value = score;
+            updateScoreCalc(score);
+        }
+
+        // 2. Navigation to Dedicated Login/Register Screen
+        function openAuthModal(tab = 'login') {
+            window.location.href = (tab === 'signup' || tab === 'register') ? '/login?tab=register' : '/login';
+        }
+
+        function handleHeroStart() {
+            if (currentUser) {
+                window.location.href = '/app';
+            } else {
+                openAuthModal('signup');
+            }
+        }
+
+        async function handleLogout() {
+            try {
+                await fetch('/api/auth/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('eduexam-token') || ''}`
+                    }
+                });
+            } catch (_) {}
+            localStorage.removeItem('eduexam-token');
+            currentUser = null;
+            renderUserNav();
+            showToast('Đã đăng xuất.');
+        }
+
+        // 5. Toast
+        function showToast(message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-slate-900 text-white shadow-xl text-xs font-medium transition-all duration-300 border border-slate-800';
+            toast.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4 text-emerald-400 shrink-0"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            lucide.createIcons();
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        // 6. Check Session
+        async function checkSession() {
+            const token = localStorage.getItem('eduexam-token');
+            if (!token) {
+                renderUserNav();
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/auth/me', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const result = await res.json();
+                if (result.success && result.data) {
+                    currentUser = result.data;
+                } else {
+                    localStorage.removeItem('eduexam-token');
+                    currentUser = null;
+                }
+            } catch (_) {
+                currentUser = null;
+            }
+            renderUserNav();
+        }
+
+        function renderUserNav() {
+            const navArea = document.getElementById('navAuthArea');
+            const heroCtaText = document.getElementById('heroCtaText');
+
+            if (currentUser) {
+                if (heroCtaText) heroCtaText.textContent = 'Vào ứng dụng';
+                const cleanName = (currentUser.hoTen || '').replace(/\s*demo\s*/gi, '').trim() || (currentUser.vaiTro === 'admin' ? 'Quản trị viên' : 'Giảng viên');
+                navArea.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <div class="hidden sm:flex flex-col text-right">
+                            <span class="text-xs font-bold text-slate-800">${cleanName}</span>
+                            <span class="text-[10px] text-slate-400">${currentUser.vaiTro === 'admin' ? 'Quản trị viên' : 'Giảng viên'}</span>
+                        </div>
+                        <a href="/app" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white bg-brand-600 hover:bg-brand-700 shadow-sm transition-all flex items-center gap-1.5">
+                            <span>Vào ứng dụng</span>
+                            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                        </a>
+                        <button onclick="handleLogout()" title="Đăng xuất" class="p-2 rounded-xl text-slate-400 hover:text-rose-600 hover:bg-slate-100 transition-colors cursor-pointer">
+                            <i data-lucide="log-out" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+            } else {
+                if (heroCtaText) heroCtaText.textContent = 'Bắt đầu ngay';
+                navArea.innerHTML = `
+                    <a href="/login" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 transition-all cursor-pointer">
+                        Đăng nhập
+                    </a>
+                    <a href="/login?tab=register" class="px-4 py-2 rounded-xl text-sm font-semibold text-white bg-slate-900 hover:bg-brand-600 shadow-xs transition-all cursor-pointer">
+                        Đăng ký
+                    </a>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        // Close on ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeAuthModal();
+        });
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            checkSession();
+            updateScoreCalc(8.5);
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

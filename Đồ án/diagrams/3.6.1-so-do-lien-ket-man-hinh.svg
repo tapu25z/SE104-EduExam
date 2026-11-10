@@ -1,0 +1,238 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1260" height="880" viewBox="0 0 1260 880">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="4" result="blur" />
+      <feOffset dx="0" dy="3" />
+      <feComponentTransfer><feFuncA type="linear" slope="0.1"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,1 L10,5 L0,9 Z" fill="#475569" />
+    </marker>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,1 L10,5 L0,9 Z" fill="#2563EB" />
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,1 L10,5 L0,9 Z" fill="#7C3AED" />
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,1 L10,5 L0,9 Z" fill="#059669" />
+    </marker>
+    <marker id="arrow-red" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,1 L10,5 L0,9 Z" fill="#DC2626" />
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1260" height="880" fill="#F8FAFC" rx="16" />
+  <rect x="15" y="15" width="1230" height="850" fill="none" stroke="#E2E8F0" stroke-width="2" rx="14" />
+
+  <!-- Title Header -->
+  <text x="630" y="46" text-anchor="middle" font-family="'Times New Roman', Arial, sans-serif" font-size="24" font-weight="bold" fill="#1E293B">SƠ ĐỒ LIÊN KẾT CÁC MÀN HÌNH HỆ THỐNG EDUEXAM</text>
+  <text x="630" y="70" text-anchor="middle" font-family="'Times New Roman', Arial, sans-serif" font-size="14" fill="#64748B">Luồng điều hướng, liên kết nghiệp vụ và phân quyền truy cập giữa 10 màn hình hệ thống</text>
+
+  <!-- ==================== 0. MH00 - MÀN HÌNH TRANG CHỦ ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="35" y="105" width="220" height="165" rx="10" fill="#FFFFFF" stroke="#0284C7" stroke-width="2.5" />
+    <rect x="35" y="105" width="220" height="36" rx="10" fill="#E0F2FE" />
+    <rect x="35" y="131" width="220" height="10" fill="#E0F2FE" />
+    <text x="145" y="129" text-anchor="middle" font-family="'Times New Roman', Arial, sans-serif" font-size="15" font-weight="bold" fill="#0369A1">MH00: TRANG CHỦ</text>
+    <text x="48" y="160" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Giới thiệu nền tảng EduExam</text>
+    <text x="48" y="182" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Tính năng, giải pháp, trải nghiệm</text>
+    <text x="48" y="204" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Trình tính quy đổi điểm QĐ3</text>
+    <text x="48" y="226" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Nút Đăng nhập &amp; Đăng ký</text>
+    <text x="48" y="248" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Nút Bắt đầu ngay (Hero CTA)</text>
+  </g>
+
+  <!-- ==================== 1. MH01 - MÀN HÌNH ĐĂNG NHẬP ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="330" y="105" width="230" height="165" rx="10" fill="#FFFFFF" stroke="#3B82F6" stroke-width="2.5" />
+    <rect x="330" y="105" width="230" height="36" rx="10" fill="#EFF6FF" />
+    <rect x="330" y="131" width="230" height="10" fill="#EFF6FF" />
+    <text x="445" y="129" text-anchor="middle" font-family="'Times New Roman', Arial, sans-serif" font-size="15" font-weight="bold" fill="#1E40AF">MH01: ĐĂNG NHẬP</text>
+    <text x="343" y="160" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Biểu mẫu xác thực tài khoản</text>
+    <text x="343" y="182" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Tên đăng nhập &amp; Mật khẩu</text>
+    <text x="343" y="204" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Phân quyền GV / Admin (UC00)</text>
+    <text x="343" y="226" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Tab Đăng ký tài khoản mới</text>
+    <text x="343" y="248" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Lưu Token phiên 8 giờ</text>
+  </g>
+
+  <!-- ==================== 2. MH02 - MÀN HÌNH TỔNG QUAN (DASHBOARD) ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="640" y="100" width="310" height="175" rx="12" fill="#FFFFFF" stroke="#4F46E5" stroke-width="3" />
+    <rect x="640" y="100" width="310" height="38" rx="12" fill="#EEF2FF" />
+    <rect x="640" y="128" width="310" height="10" fill="#EEF2FF" />
+    <text x="795" y="125" text-anchor="middle" font-family="'Times New Roman', Arial, sans-serif" font-size="16" font-weight="bold" fill="#3730A3">MH02: TỔNG QUAN (DASHBOARD)</text>
+    <text x="655" y="158" font-family="Arial, sans-serif" font-size="12.5" fill="#1E293B">• 4 Thẻ KPI: Câu hỏi, Đề thi, Bài chấm, SV</text>
+    <text x="655" y="180" font-family="Arial, sans-serif" font-size="12.5" fill="#1E293B">• Phân bố ngân hàng đề 4 môn học (QĐ1)</text>
+    <text x="655" y="202" font-family="Arial, sans-serif" font-size="12.5" fill="#1E293B">• Lối tắt thao tác nhanh &amp; trạng thái</text>
+    <text x="655" y="224" font-family="Arial, sans-serif" font-size="12.5" fill="#1E293B">• Thanh Sidebar điều hướng toàn diện</text>
+    <rect x="655" y="238" width="280" height="18" rx="4" fill="#E0E7FF" />
+    <text x="795" y="251" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#4338CA">TRUNG TÂM ĐIỀU HƯỚNG CHÍNH (SPA HUB)</text>
+  </g>
+
+  <!-- ==================== 9. MH09 - QUẢN LÝ TÀI KHOẢN (ADMIN ONLY) ==================== -->
+  <g filter="url(#shadow)">
+    <rect x="1010" y="105" width="215" height="165" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="2" />
+    <rect x="1010" y="105" width="215" height="36" rx="10" fill="#FEF3C7" />
+    <rect x="1010" y="131" width="215" height="10" fill="#FEF3C7" />
+    <text x="1117" y="129" text-anchor="middle" font-family="'Times New Roman', Arial, sans-serif" font-size="14" font-weight="bold" fill="#92400E">MH09: QUẢN LÝ TK</text>
+    <text x="1022" y="160" font-family="Arial, sans-serif" font-size="12" fill="#78350F">• Dành cho Admin (UC06)</text>
+    <text x="1022" y="182" font-family="Arial, sans-serif" font-size="12" fill="#78350F">• Danh sách giảng viên (BM6)</text>
+    <text x="1022" y="204" font-family="Arial, sans-serif" font-size="12" fill="#78350F">• Modal Cấp mới tài khoản</text>
+    <text x="1022" y="226" font-family="Arial, sans-serif" font-size="12" fill="#78350F">• Khóa / Mở khóa tài khoản</text>
+    <text x="1022" y="248" font-family="Arial, sans-serif" font-size="12" fill="#78350F">• Đặt lại mật khẩu chuẩn</text>
+  </g>
+
+  <!-- ==================== FUNCTIONAL SCREENS (ROW 2 & 3) ==================== -->
+  <!-- MH03: QUẢN LÝ CÂU HỎI -->
+  <g filter="url(#shadow)">
+    <rect x="35" y="385" width="255" height="165" rx="10" fill="#FFFFFF" stroke="#0284C7" stroke-width="2" />
+    <rect x="35" y="385" width="255" height="34" rx="10" fill="#E0F2FE" />
+    <rect x="35" y="409" width="255" height="10" fill="#E0F2FE" />
+    <text x="162" y="408" text-anchor="middle" font-family="'Times New Roman', Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#0369A1">MH03: NGÂN HÀNG CÂU HỎI</text>
+    <text x="48" y="438" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Quản lý câu hỏi theo môn &amp; độ khó (QĐ1)</text>
+    <text x="48" y="460" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Tìm kiếm, bộ lọc, xem Card/Table</text>
+    <text x="48" y="482" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Modal Thêm / Sửa câu hỏi (BM1)</text>
+    <text x="48" y="504" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Nhập đáp án chuẩn bắt buộc</text>
+    <text x="48" y="526" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Chặn xóa câu đã thuộc đề thi (QĐ1)</text>
+  </g>
+
+  <!-- MH04: SOẠN ĐỀ THI -->
+  <g filter="url(#shadow)">
+    <rect x="340" y="385" width="255" height="165" rx="10" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2" />
+    <rect x="340" y="385" width="255" height="34" rx="10" fill="#F3E8FF" />
+    <rect x="340" y="409" width="255" height="10" fill="#F3E8FF" />
+    <text x="467" y="408" text-anchor="middle" font-family="'Times New Roman', Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#6D28D9">MH04: SOẠN ĐỀ THI</text>
+    <text x="353" y="438" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Danh sách đề thi cá nhân (UC02)</text>
+    <text x="353" y="460" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Modal Tạo / Sửa đề thi (BM2)</text>
+    <text x="353" y="482" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Chọn 1–5 câu cùng môn (QĐ2)</text>
+    <text x="353" y="504" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Phân bổ điểm, kiểm tra Tổng = 10</text>
+    <text x="353" y="526" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Khóa đề đã có bài chấm (QĐ2)</text>
+  </g>
+
+  <!-- MH05: GHI NHẬN CHẤM THI -->
+  <g filter="url(#shadow)">
+    <rect x="645" y="385" width="265" height="165" rx="10" fill="#FFFFFF" stroke="#059669" stroke-width="2.5" />
+    <rect x="645" y="385" width="265" height="34" rx="10" fill="#ECFDF5" />
+    <rect x="645" y="409" width="265" height="10" fill="#ECFDF5" />
+    <text x="777" y="408" text-anchor="middle" font-family="'Times New Roman', Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#047857">MH05: GHI NHẬN CHẤM THI</text>
+    <text x="658" y="438" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Bộ chọn Môn, Đề thi, Lớp học (BM3)</text>
+    <text x="658" y="460" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Bảng nhập điểm tương tác tức thì</text>
+    <text x="658" y="482" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Ràng buộc điểm 0–10, bước 0.5 (QĐ3)</text>
+    <text x="658" y="504" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Tự động quy đổi điểm chữ A–F</text>
+    <text x="658" y="526" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Lưu đồng loạt &amp; thanh tiến độ chấm</text>
+  </g>
+
+  <!-- MH06: TRA CỨU ĐỀ THI -->
+  <g filter="url(#shadow)">
+    <rect x="960" y="385" width="265" height="165" rx="10" fill="#FFFFFF" stroke="#2563EB" stroke-width="2" />
+    <rect x="960" y="385" width="265" height="34" rx="10" fill="#EFF6FF" />
+    <rect x="960" y="409" width="265" height="10" fill="#EFF6FF" />
+    <text x="1092" y="408" text-anchor="middle" font-family="'Times New Roman', Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#1D4ED8">MH06: TRA CỨU ĐỀ THI</text>
+    <text x="973" y="438" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Bộ lọc từ khóa, Môn, Kỳ, Năm (BM4)</text>
+    <text x="973" y="460" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Bảng kết quả đề thi toàn diện (UC04)</text>
+    <text x="973" y="482" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Modal Xem trước / In đề thi chuẩn</text>
+    <text x="973" y="504" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Nút Chuyển nhanh sang Chấm thi</text>
+    <text x="973" y="526" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Phân quyền xem theo giảng viên</text>
+  </g>
+
+  <!-- MH07: BÁO CÁO NĂM -->
+  <g filter="url(#shadow)">
+    <rect x="190" y="640" width="390" height="160" rx="10" fill="#FFFFFF" stroke="#0D9488" stroke-width="2" />
+    <rect x="190" y="640" width="390" height="34" rx="10" fill="#CCFBF1" />
+    <rect x="190" y="664" width="390" height="10" fill="#CCFBF1" />
+    <text x="385" y="663" text-anchor="middle" font-family="'Times New Roman', Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#0F766E">MH07: BÁO CÁO TỔNG HỢP NĂM</text>
+    <text x="205" y="693" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Chọn năm học cần thống kê (BM5 - UC05)</text>
+    <text x="205" y="715" font-family="Arial, sans-serif" font-size="12" fill="#334155">• 2 Biểu đồ cột: Số lượng Đề thi &amp; Số lượng Bài chấm theo từng môn</text>
+    <text x="205" y="737" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Bảng chi tiết tổng hợp: Số đề, Tỷ lệ % đề, Số bài chấm, Tỷ lệ % chấm</text>
+    <text x="205" y="759" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Tự động tính tổng toàn trường và tỷ lệ chính xác theo công thức 1.1, 1.2</text>
+    <text x="205" y="781" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Hỗ trợ xem trực quan trên mọi kích thước màn hình</text>
+  </g>
+
+  <!-- MH08: QUẢN LÝ LỚP HỌC -->
+  <g filter="url(#shadow)">
+    <rect x="680" y="640" width="390" height="160" rx="10" fill="#FFFFFF" stroke="#E11D48" stroke-width="2" />
+    <rect x="680" y="640" width="390" height="34" rx="10" fill="#FFE4E6" />
+    <rect x="680" y="664" width="390" height="10" fill="#FFE4E6" />
+    <text x="875" y="663" text-anchor="middle" font-family="'Times New Roman', Arial, sans-serif" font-size="14.5" font-weight="bold" fill="#BE123C">MH08: QUẢN LÝ LỚP HỌC</text>
+    <text x="695" y="693" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Danh sách các lớp học phụ trách của giảng viên (BM7 - UC07)</text>
+    <text x="695" y="715" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Modal Tạo mới / Sửa thông tin lớp (Mã lớp duy nhất, Tên lớp)</text>
+    <text x="695" y="737" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Modal Quản lý danh sách sinh viên: Thêm SV, Xóa SV khỏi lớp</text>
+    <text x="695" y="759" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Ràng buộc QĐ5: Chặn xóa lớp / sinh viên đã có dữ liệu chấm thi</text>
+    <text x="695" y="781" font-family="Arial, sans-serif" font-size="12" fill="#334155">• Tự động đồng bộ với bộ chọn Lớp học ở MH05 Chấm thi</text>
+  </g>
+
+  <!-- ==================== CONNECTING ARROWS & LABELS ==================== -->
+  <!-- MH00 -> MH01 (Click Đăng nhập / Bắt đầu ngay) -->
+  <path d="M255,180 L325,180" fill="none" stroke="#0284C7" stroke-width="2.5" marker-end="url(#arrow)" />
+  <rect x="265" y="163" width="50" height="18" rx="4" fill="#E0F2FE" stroke="#BAE6FD" />
+  <text x="290" y="176" text-anchor="middle" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#0369A1">Đăng nhập</text>
+
+  <!-- MH01 -> MH02 (Đăng nhập thành công) -->
+  <path d="M560,180 L635,180" fill="none" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arrow-blue)" />
+  <rect x="568" y="163" width="60" height="18" rx="4" fill="#EFF6FF" stroke="#BFDBFE" />
+  <text x="598" y="176" text-anchor="middle" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#1E40AF">Token OK</text>
+
+  <!-- MH02 -> MH00 / MH01 (Đăng xuất) -->
+  <path d="M640,140 Q450,85 260,140" fill="none" stroke="#DC2626" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arrow-red)" />
+  <text x="450" y="92" text-anchor="middle" font-family="Arial, sans-serif" font-size="10.5" font-weight="bold" fill="#DC2626">Đăng xuất / Về Trang chủ</text>
+
+  <!-- MH02 -> MH09 (Admin mở quản lý tài khoản) -->
+  <path d="M950,180 L1005,180" fill="none" stroke="#D97706" stroke-width="2" marker-end="url(#arrow)" />
+  <rect x="956" y="163" width="44" height="18" rx="4" fill="#FEF3C7" stroke="#FDE68A" />
+  <text x="978" y="176" text-anchor="middle" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#92400E">Admin</text>
+
+  <!-- MH02 (Dashboard) to functional screens (Sidebar / Navigation links) -->
+  <!-- to MH03 -->
+  <path d="M680,275 C680,335 162,335 162,380" fill="none" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow)" />
+  <!-- to MH04 -->
+  <path d="M740,275 C740,335 467,335 467,380" fill="none" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow)" />
+  <!-- to MH05 -->
+  <path d="M820,275 C820,335 777,335 777,380" fill="none" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow)" />
+  <!-- to MH06 -->
+  <path d="M880,275 C880,335 1092,335 1092,380" fill="none" stroke="#475569" stroke-width="1.8" marker-end="url(#arrow)" />
+  <!-- to MH07 -->
+  <path d="M710,275 C710,360 385,500 385,635" fill="none" stroke="#475569" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow)" />
+  <!-- to MH08 -->
+  <path d="M860,275 C860,360 875,500 875,635" fill="none" stroke="#475569" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrow)" />
+
+  <!-- Navigation indicator text -->
+  <rect x="720" y="325" width="150" height="22" rx="5" fill="#F1F5F9" stroke="#CBD5E1" />
+  <text x="795" y="340" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" font-weight="bold" fill="#475569">Sidebar / Menu chọn tab</text>
+
+  <!-- Cross Navigation: MH04 (Soạn đề) -> MH05 (Chấm thi ngay) -->
+  <path d="M595,455 L640,455" fill="none" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow-purple)" />
+  <rect x="595" y="432" width="46" height="18" rx="4" fill="#F3E8FF" stroke="#DDD6FE" />
+  <text x="618" y="445" text-anchor="middle" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#6D28D9">Chấm</text>
+
+  <!-- Cross Navigation: MH06 (Tra cứu) -> MH05 (Chấm thi ngay) -->
+  <path d="M960,465 L915,465" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#arrow-green)" />
+  <rect x="915" y="473" width="44" height="18" rx="4" fill="#ECFDF5" stroke="#A7F3D0" />
+  <text x="937" y="486" text-anchor="middle" font-family="Arial, sans-serif" font-size="9.5" font-weight="bold" fill="#047857">Chấm</text>
+
+  <!-- Cross Data Link: MH08 (Lớp học) -> MH05 (Chấm thi) -->
+  <path d="M820,640 L820,555" fill="none" stroke="#E11D48" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#arrow)" />
+  <rect x="830" y="590" width="95" height="18" rx="4" fill="#FFE4E6" stroke="#FECDD3" />
+  <text x="877" y="603" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#BE123C">Đồng bộ Lớp &amp; DSSV</text>
+
+  <!-- Cross Data Link: MH03 (Câu hỏi) -> MH04 (Soạn đề) -->
+  <path d="M290,455 L335,455" fill="none" stroke="#0284C7" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#arrow)" />
+  <rect x="285" y="468" width="60" height="18" rx="4" fill="#E0F2FE" stroke="#BAE6FD" />
+  <text x="315" y="481" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#0369A1">Chọn câu</text>
+
+  <!-- Footer Legend -->
+  <g transform="translate(50, 840)">
+    <text x="0" y="16" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#475569">Chú thích:</text>
+    <line x1="70" y1="12" x2="100" y2="12" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arrow-blue)" />
+    <text x="108" y="16" font-family="Arial, sans-serif" font-size="11.5" fill="#334155">Luồng đăng nhập/xác thực</text>
+    <line x1="270" y1="12" x2="300" y2="12" stroke="#475569" stroke-width="2" marker-end="url(#arrow)" />
+    <text x="308" y="16" font-family="Arial, sans-serif" font-size="11.5" fill="#334155">Điều hướng Sidebar SPA</text>
+    <line x1="470" y1="12" x2="500" y2="12" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow-purple)" />
+    <text x="508" y="16" font-family="Arial, sans-serif" font-size="11.5" fill="#334155">Liên kết chuyển tiếp nghiệp vụ sâu</text>
+    <line x1="720" y1="12" x2="750" y2="12" stroke="#DC2626" stroke-width="1.8" stroke-dasharray="4,3" marker-end="url(#arrow-red)" />
+    <text x="758" y="16" font-family="Arial, sans-serif" font-size="11.5" fill="#334155">Đăng xuất / Quay lại</text>
+    <rect x="920" y="2" width="16" height="16" rx="3" fill="#FEF3C7" stroke="#D97706" />
+    <text x="944" y="15" font-family="Arial, sans-serif" font-size="11.5" fill="#78350F">Chức năng dành riêng Quản trị viên</text>
+  </g>
+</svg>

@@ -9,9 +9,9 @@ router.get('/danh-sach-nam', async (req, res) => {
   try {
     const rows = await query(`
       SELECT DISTINCT namHoc 
-      FROM DeThi 
+      FROM DeThi WHERE accountId = ?
       ORDER BY namHoc DESC
-    `);
+    `, [req.user.accountId]);
     const danhSach = rows.map(r => r.namHoc);
     // Nếu chưa có năm nào, cung cấp các năm học mặc định
     if (danhSach.length === 0) {
@@ -45,8 +45,8 @@ router.get('/', async (req, res) => {
     const tongDeRow = await query(`
       SELECT COUNT(*) AS tongDe
       FROM DeThi
-      WHERE namHoc = ?
-    `, [namHoc]);
+      WHERE namHoc = ? AND accountId = ?
+    `, [namHoc, req.user.accountId]);
     const tongSoDeThi = tongDeRow[0].tongDe || 0;
 
     // 2. Tính tổng số bài chấm gắn với các đề thuộc năm học đó
@@ -54,8 +54,8 @@ router.get('/', async (req, res) => {
       SELECT COUNT(kqt.mssv) AS tongBaiCham
       FROM KetQuaThi kqt
       JOIN DeThi dt ON kqt.maDe = dt.maDe
-      WHERE dt.namHoc = ?
-    `, [namHoc]);
+      WHERE dt.namHoc = ? AND dt.accountId = ?
+    `, [namHoc, req.user.accountId]);
     const tongSoBaiCham = tongBaiChamRow[0].tongBaiCham || 0;
 
     // 3. Thống kê chi tiết theo từng môn học (bao gồm tất cả môn học trong bảng MonHoc)
@@ -66,11 +66,11 @@ router.get('/', async (req, res) => {
         COUNT(DISTINCT dt.maDe) AS soLuongDeThi,
         COUNT(kqt.mssv) AS soLuongBaiCham
       FROM MonHoc mh
-      LEFT JOIN DeThi dt ON mh.maMon = dt.maMon AND dt.namHoc = ?
+      LEFT JOIN DeThi dt ON mh.maMon = dt.maMon AND dt.namHoc = ? AND dt.accountId = ?
       LEFT JOIN KetQuaThi kqt ON dt.maDe = kqt.maDe
       GROUP BY mh.maMon, mh.tenMon
       ORDER BY mh.maMon ASC
-    `, [namHoc]);
+    `, [namHoc, req.user.accountId]);
 
     // 4. Áp dụng công thức (1.1) và (1.2) để tính tỉ lệ phần trăm
     const chiTietMon = thongKeMon.map((item, index) => {

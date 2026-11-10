@@ -24,9 +24,10 @@ router.get('/lop', async (req, res) => {
       SELECT l.*, COUNT(sv.mssv) AS soSinhVien
       FROM Lop l
       LEFT JOIN SinhVien sv ON l.maLop = sv.maLop
+      WHERE l.accountId = ?
       GROUP BY l.maLop
       ORDER BY l.maLop ASC
-    `);
+    `, [req.user.accountId]);
     res.json({ success: true, data: list });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Lỗi tải danh mục lớp học: ' + err.message });
@@ -44,9 +45,10 @@ router.get('/sinh-vien', async (req, res) => {
       FROM SinhVien sv
       JOIN Lop l ON sv.maLop = l.maLop
     `;
-    const params = [];
+    const params = [req.user.accountId];
+    sql += ' WHERE l.accountId = ?';
     if (maLop) {
-      sql += ' WHERE sv.maLop = ?';
+      sql += ' AND sv.maLop = ?';
       params.push(maLop);
     }
     sql += ' ORDER BY sv.maLop, sv.mssv ASC';
@@ -63,11 +65,11 @@ router.get('/sinh-vien', async (req, res) => {
  */
 router.get('/thong-ke-dashboard', async (req, res) => {
   try {
-    const [cauHoiRow] = await query('SELECT COUNT(*) AS total FROM CauHoi');
-    const [deThiRow] = await query('SELECT COUNT(*) AS total FROM DeThi');
-    const [baiChamRow] = await query('SELECT COUNT(*) AS total FROM KetQuaThi');
-    const [sinhVienRow] = await query('SELECT COUNT(*) AS total FROM SinhVien');
-    const [lopRow] = await query('SELECT COUNT(*) AS total FROM Lop');
+    const [cauHoiRow] = await query('SELECT COUNT(*) AS total FROM CauHoi WHERE accountId = ?', [req.user.accountId]);
+    const [deThiRow] = await query('SELECT COUNT(*) AS total FROM DeThi WHERE accountId = ?', [req.user.accountId]);
+    const [baiChamRow] = await query('SELECT COUNT(*) AS total FROM KetQuaThi k JOIN DeThi d ON d.maDe = k.maDe WHERE d.accountId = ?', [req.user.accountId]);
+    const [sinhVienRow] = await query('SELECT COUNT(*) AS total FROM SinhVien s JOIN Lop l ON l.maLop = s.maLop WHERE l.accountId = ?', [req.user.accountId]);
+    const [lopRow] = await query('SELECT COUNT(*) AS total FROM Lop WHERE accountId = ?', [req.user.accountId]);
     const [monHocRow] = await query('SELECT COUNT(*) AS total FROM MonHoc');
 
     res.json({
@@ -92,11 +94,7 @@ router.get('/thong-ke-dashboard', async (req, res) => {
  */
 router.post('/reset-data', async (req, res) => {
   try {
-    await seedDatabase(true);
-    res.json({
-      success: true,
-      message: 'Đã khôi phục toàn bộ cơ sở dữ liệu về bộ dữ liệu mẫu chuẩn của Đồ án SE104!'
-    });
+    return res.status(410).json({ success: false, message: 'Khôi phục toàn bộ dữ liệu mẫu đã được tắt để bảo vệ dữ liệu nhiều tài khoản.' });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Lỗi khôi phục dữ liệu: ' + err.message });
   }

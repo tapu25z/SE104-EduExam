@@ -110,6 +110,7 @@ class UC01Controller {
             <p class="text-xs text-slate-800 leading-relaxed font-medium line-clamp-4">
               ${this.escapeHtml(item.noiDung)}
             </p>
+            <details class="mt-2 text-xs"><summary class="cursor-pointer text-blue-700 font-bold">Đáp án chuẩn</summary><p class="mt-1 whitespace-pre-line text-slate-600">${this.escapeHtml(item.dapAn || 'Chưa cập nhật đáp án')}</p></details>
           </div>
 
           <!-- Footer -->
@@ -129,17 +130,12 @@ class UC01Controller {
             </div>
 
             <div class="flex items-center space-x-1">
+              <button onclick="window.uc01.openEditModal('${item.maCauHoi}')" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Sửa câu hỏi"><i class="fa-solid fa-pen-to-square text-xs"></i></button>
               ${isLocked ? `
-                <button onclick="window.uc01.thongBaoKhoa('${item.maCauHoi}', '${item.danhSachMaDe}')" class="p-1.5 text-slate-400 hover:text-amber-600 rounded-lg transition" title="Không thể sửa vì đang dùng trong đề">
-                  <i class="fa-solid fa-lock text-xs"></i>
-                </button>
                 <button onclick="window.uc01.thongBaoKhoa('${item.maCauHoi}', '${item.danhSachMaDe}')" class="p-1.5 text-slate-400 hover:text-amber-600 rounded-lg transition" title="Không thể xóa vì đang dùng trong đề">
                   <i class="fa-solid fa-trash-can text-xs opacity-50"></i>
                 </button>
               ` : `
-                <button onclick="window.uc01.openEditModal('${item.maCauHoi}')" class="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Sửa câu hỏi">
-                  <i class="fa-solid fa-pen-to-square text-xs"></i>
-                </button>
                 <button onclick="window.uc01.xacNhanXoa('${item.maCauHoi}')" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Xóa câu hỏi">
                   <i class="fa-solid fa-trash-can text-xs"></i>
                 </button>
@@ -185,12 +181,8 @@ class UC01Controller {
           </td>
           <td class="py-3 px-4 text-center">
             <div class="flex items-center justify-center space-x-1">
-              ${isLocked ? `
-                <button onclick="window.uc01.thongBaoKhoa('${item.maCauHoi}', '${item.danhSachMaDe}')" class="p-1 text-slate-400 hover:text-amber-600"><i class="fa-solid fa-lock text-xs"></i></button>
-              ` : `
-                <button onclick="window.uc01.openEditModal('${item.maCauHoi}')" class="p-1 text-blue-600 hover:text-blue-800"><i class="fa-solid fa-pen-to-square text-xs"></i></button>
-                <button onclick="window.uc01.xacNhanXoa('${item.maCauHoi}')" class="p-1 text-rose-600 hover:text-rose-800"><i class="fa-solid fa-trash-can text-xs"></i></button>
-              `}
+              <button onclick="window.uc01.openEditModal('${item.maCauHoi}')" class="p-1 text-blue-600 hover:text-blue-800" title="Sửa câu hỏi"><i class="fa-solid fa-pen-to-square text-xs"></i></button>
+              ${isLocked ? `<button onclick="window.uc01.thongBaoKhoa('${item.maCauHoi}', '${item.danhSachMaDe}')" class="p-1 text-slate-400 hover:text-amber-600" title="Không thể xóa vì đang dùng trong đề"><i class="fa-solid fa-lock text-xs"></i></button>` : `<button onclick="window.uc01.xacNhanXoa('${item.maCauHoi}')" class="p-1 text-rose-600 hover:text-rose-800" title="Xóa câu hỏi"><i class="fa-solid fa-trash-can text-xs"></i></button>`}
             </div>
           </td>
         </tr>
@@ -216,6 +208,7 @@ class UC01Controller {
     document.getElementById('modal-ch-mon').removeAttribute('disabled');
     document.getElementById('modal-ch-dokho').value = 'Trung Bình';
     document.getElementById('modal-ch-noidung').value = '';
+    document.getElementById('modal-ch-dapan').value = '';
 
     document.getElementById('modal-cauhoi').classList.remove('hidden');
   }
@@ -230,11 +223,6 @@ class UC01Controller {
       }
 
       const item = data.data;
-      if (item.daDungTrongDe) {
-        this.thongBaoKhoa(item.maCauHoi, item.danhSachMaDe);
-        return;
-      }
-
       document.getElementById('modal-ch-title').textContent = 'Chỉnh sửa câu hỏi';
       document.getElementById('modal-ch-mode').value = 'edit';
       document.getElementById('modal-ch-made').value = item.maCauHoi;
@@ -242,6 +230,7 @@ class UC01Controller {
       document.getElementById('modal-ch-mon').value = item.maMon;
       document.getElementById('modal-ch-dokho').value = item.doKho;
       document.getElementById('modal-ch-noidung').value = item.noiDung;
+      document.getElementById('modal-ch-dapan').value = item.dapAn || '';
 
       document.getElementById('modal-cauhoi').classList.remove('hidden');
     } catch (err) {
@@ -261,9 +250,10 @@ class UC01Controller {
     const maMon = document.getElementById('modal-ch-mon').value;
     const doKho = document.getElementById('modal-ch-dokho').value;
     const noiDung = document.getElementById('modal-ch-noidung').value.trim();
+    const dapAn = document.getElementById('modal-ch-dapan').value.trim();
 
-    if (!maMon || !doKho || !noiDung) {
-      window.app.toast('Vui lòng nhập đầy đủ các trường thông tin!', 'warning');
+    if (!maMon || !doKho || !noiDung || !dapAn) {
+      window.app.toast('Vui lòng nhập môn học, độ khó, nội dung và đáp án đúng!', 'warning');
       return;
     }
 
@@ -273,13 +263,13 @@ class UC01Controller {
         res = await fetch('/api/cau-hoi', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ maCauHoi, maMon, doKho, noiDung })
+          body: JSON.stringify({ maCauHoi, maMon, doKho, noiDung, dapAn })
         });
       } else {
         res = await fetch(`/api/cau-hoi/${maCauHoi}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ maMon, doKho, noiDung })
+          body: JSON.stringify({ maMon, doKho, noiDung, dapAn })
         });
       }
 
@@ -321,7 +311,7 @@ class UC01Controller {
 
   thongBaoKhoa(maCauHoi, danhSachDe) {
     window.app.toast(
-      `Câu hỏi '${maCauHoi}' hiện đang nằm trong đề thi [${danhSachDe}]. Không thể sửa hoặc xóa để bảo toàn nội dung đề thi đã lập.`,
+      `Câu hỏi '${maCauHoi}' hiện đang nằm trong đề thi [${danhSachDe}]. Không thể xóa câu hỏi đang được dùng trong đề thi.`,
       'warning'
     );
   }

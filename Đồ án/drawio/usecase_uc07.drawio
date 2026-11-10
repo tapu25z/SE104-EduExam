@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mxfile host="Electron" agent="Antigravity" version="21.0.0" type="device">
+  <diagram id="Hình_2_8_Biểu_đồ_Use_Case_phân_rã_UC07" name="Hình 2.8 Biểu đồ Use Case phân rã UC07">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="gv" value="Giảng viên" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;strokeColor=#000000;fillColor=#FFFFFF;fontColor=#000000;fontFamily=Times New Roman;fontSize=14;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="60" y="230" width="45" height="80" />
+        </mxCell>
+        <mxCell id="sys" value="Phân hệ Quản lý lớp học (UC07)" style="swimlane;startSize=32;horizontal=1;html=1;fillColor=#F8FAFC;swimlaneFillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=15;fontStyle=1;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="230" y="40" width="880.0" height="360.0" />
+        </mxCell>
+        <mxCell id="u7_1" value="Xem danh sách lớp học" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="370" y="75" width="250" height="50" />
+        </mxCell>
+        <mxCell id="u7_2" value="Khởi tạo lớp học mới (BM7, QĐ5)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="370" y="155" width="250" height="50" />
+        </mxCell>
+        <mxCell id="u7_3" value="Sửa thông tin lớp học" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="370" y="235" width="250" height="50" />
+        </mxCell>
+        <mxCell id="u7_4" value="Xóa lớp học" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="370" y="315" width="250" height="50" />
+        </mxCell>
+        <mxCell id="u7_5" value="Quản lý danh sách sinh viên (Họ tên, MSSV)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="820" y="195" width="240" height="50" />
+        </mxCell>
+        <mxCell id="u7_6" value="Kiểm tra chưa có điểm chấm (QĐ5)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=13;fontStyle=0;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="820" y="315" width="210" height="50" />
+        </mxCell>
+        <mxCell id="l1" value="" style="edgeStyle=none;html=1;strokeColor=#000000;endArrow=none;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="105.0" y="270.0" />
+            <mxPoint as="targetPoint" x="370.0" y="100.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l2" value="" style="edgeStyle=none;html=1;strokeColor=#000000;endArrow=none;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="105.0" y="270.0" />
+            <mxPoint as="targetPoint" x="370.0" y="180.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l3" value="" style="edgeStyle=none;html=1;strokeColor=#000000;endArrow=none;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="105.0" y="270.0" />
+            <mxPoint as="targetPoint" x="370.0" y="260.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="l4" value="" style="edgeStyle=none;html=1;strokeColor=#000000;endArrow=none;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="105.0" y="270.0" />
+            <mxPoint as="targetPoint" x="370.0" y="340.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="inc1" value="&amp;laquo;include&amp;raquo;" style="edgeStyle=none;html=1;strokeColor=#000000;dashed=1;endArrow=open;endFill=0;fontColor=#000000;fontFamily=Times New Roman;fontSize=11;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="620.0" y="180.0" />
+            <mxPoint as="targetPoint" x="820.0" y="220.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="inc2" value="&amp;laquo;include&amp;raquo;" style="edgeStyle=none;html=1;strokeColor=#000000;dashed=1;endArrow=open;endFill=0;fontColor=#000000;fontFamily=Times New Roman;fontSize=11;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="620.0" y="260.0" />
+            <mxPoint as="targetPoint" x="820.0" y="220.0" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="inc3" value="&amp;laquo;include&amp;raquo;" style="edgeStyle=none;html=1;strokeColor=#000000;dashed=1;endArrow=open;endFill=0;fontColor=#000000;fontFamily=Times New Roman;fontSize=11;" parent="1" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint as="sourcePoint" x="620.0" y="340.0" />
+            <mxPoint as="targetPoint" x="820.0" y="340.0" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

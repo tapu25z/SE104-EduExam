@@ -8,6 +8,7 @@ class UC02Controller {
     this.danhSach = [];
     this.cauHoiTheoMon = [];
     this.cauHoiDaChon = new Set();
+    this.diemCauHoi = {};
     this.viewMode = 'card';
   }
 
@@ -252,6 +253,7 @@ class UC02Controller {
     document.getElementById('modal-dt-ngaythi').value = today;
 
     this.cauHoiDaChon.clear();
+    this.diemCauHoi = {};
     this.updateCountPill();
 
     const selMon = document.getElementById('modal-dt-mon');
@@ -289,6 +291,7 @@ class UC02Controller {
       document.getElementById('modal-dt-thoiluong').value = item.thoiLuong;
 
       this.cauHoiDaChon = new Set(item.cauHois.map(c => c.maCauHoi));
+      this.diemCauHoi = Object.fromEntries(item.cauHois.map(c => [c.maCauHoi, Number(c.diemToiDa)]));
       await this.onMonChange();
 
       document.getElementById('modal-dethi').classList.remove('hidden');
@@ -358,6 +361,7 @@ class UC02Controller {
               <span class="px-1.5 py-0.2 rounded text-[10px] font-bold ${badgeClass}">${ch.doKho}</span>
             </div>
             <p class="text-slate-600 leading-relaxed">${ch.noiDung}</p>
+            ${isChecked ? `<div class="flex items-center gap-2 mt-2 font-semibold text-slate-700">Điểm câu <input type="number" min="0.5" max="10" step="0.5" value="${this.diemCauHoi[ch.maCauHoi] ?? ''}" onchange="window.uc02.setQuestionScore('${ch.maCauHoi}',this.value)" class="w-20 p-1.5 border rounded-lg"> / 10</div>` : ''}
           </div>
         </label>
       `;
@@ -375,8 +379,10 @@ class UC02Controller {
         return;
       }
       this.cauHoiDaChon.add(maCauHoi);
+      if (this.diemCauHoi[maCauHoi] === undefined) this.diemCauHoi[maCauHoi] = 0.5;
     } else {
       this.cauHoiDaChon.delete(maCauHoi);
+      delete this.diemCauHoi[maCauHoi];
     }
     this.renderQuestionPicker();
   }
@@ -392,7 +398,12 @@ class UC02Controller {
     } else {
       pill.className = 'text-xs font-bold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300';
     }
+    const total = [...this.cauHoiDaChon].reduce((sum,id)=>sum+(Number(this.diemCauHoi[id])||0),0);
+    const scoreEl=document.getElementById('modal-dt-score-summary');
+    if(scoreEl){scoreEl.textContent=`Tổng điểm đã phân bổ: ${total.toFixed(1)}/10`;scoreEl.className=`text-xs font-bold ${Math.abs(total-10)<1e-7?'text-emerald-700':'text-amber-700'}`;}
   }
+
+  setQuestionScore(id, value) { this.diemCauHoi[id] = Number(value); this.updateCountPill(); }
 
   async submitForm(event) {
     event.preventDefault();
@@ -403,7 +414,7 @@ class UC02Controller {
     const namHoc = document.getElementById('modal-dt-namhoc').value.trim();
     const ngayThi = document.getElementById('modal-dt-ngaythi').value;
     const thoiLuong = Number(document.getElementById('modal-dt-thoiluong').value);
-    const danhSachCauHoi = Array.from(this.cauHoiDaChon);
+    const danhSachCauHoi = Array.from(this.cauHoiDaChon, maCauHoi => ({ maCauHoi, diemToiDa:Number(this.diemCauHoi[maCauHoi]) }));
 
     if (isNaN(thoiLuong) || thoiLuong < 30 || thoiLuong > 180) {
       window.app.toast('Thời lượng thi hợp lệ là từ 30 đến 180 phút!', 'error');
@@ -414,6 +425,7 @@ class UC02Controller {
       window.app.toast(`Đề thi phải có từ 1 đến 5 câu hỏi (hiện tại đã chọn: ${danhSachCauHoi.length} câu)!`, 'error');
       return;
     }
+    if(danhSachCauHoi.some(q=>!Number.isFinite(q.diemToiDa)||q.diemToiDa<=0)||Math.abs(danhSachCauHoi.reduce((s,q)=>s+q.diemToiDa,0)-10)>1e-7){window.app.toast('Phân bổ điểm theo bước 0,5 và bảo đảm tổng điểm đề bằng 10.', 'error');return;}
 
     try {
       let res, result;

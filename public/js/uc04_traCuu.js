@@ -153,7 +153,7 @@ class UC04Controller {
       const questionsHtml = dt.cauHois.map((q, idx) => `
         <div class="mb-5 pb-4 border-b border-slate-200/60 last:border-0">
           <div class="flex items-center justify-between mb-1.5">
-            <h5 class="font-bold text-slate-900 text-sm">Câu ${idx + 1} (${q.doKho}):</h5>
+          <h5 class="font-bold text-slate-900 text-sm">Câu ${idx + 1} (${q.doKho}, ${Number(q.diemToiDa).toFixed(1)} điểm):</h5>
             <span class="text-xs text-slate-400 font-mono">${q.maCauHoi}</span>
           </div>
           <p class="text-slate-800 leading-relaxed text-sm whitespace-pre-line">${q.noiDung}</p>

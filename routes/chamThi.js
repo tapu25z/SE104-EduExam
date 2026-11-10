@@ -56,7 +56,7 @@ router.get('/sinh-vien-lop', async (req, res) => {
     }
 
     // Lấy thông tin lớp
-    const lop = await get('SELECT * FROM Lop WHERE maLop = ?', [maLop]);
+    const lop = await get('SELECT * FROM Lop WHERE maLop = ? AND accountId = ?', [maLop, req.user.accountId]);
     if (!lop) {
       return res.status(404).json({ success: false, message: 'Lớp học không tồn tại!' });
     }
@@ -68,8 +68,8 @@ router.get('/sinh-vien-lop', async (req, res) => {
         SELECT dt.*, mh.tenMon 
         FROM DeThi dt 
         JOIN MonHoc mh ON dt.maMon = mh.maMon 
-        WHERE dt.maDe = ?
-      `, [maDe]);
+        WHERE dt.maDe = ? AND dt.accountId = ?
+      `, [maDe, req.user.accountId]);
     }
 
     // Lấy danh sách sinh viên của lớp kèm kết quả chấm thi tương ứng với đề này
@@ -78,9 +78,9 @@ router.get('/sinh-vien-lop', async (req, res) => {
              kqt.diemSo, kqt.diemChu, kqt.ghiChu
       FROM SinhVien sv
       LEFT JOIN KetQuaThi kqt ON sv.mssv = kqt.mssv AND kqt.maDe = ?
-      WHERE sv.maLop = ?
+      WHERE sv.maLop = ? AND EXISTS (SELECT 1 FROM Lop l WHERE l.maLop=sv.maLop AND l.accountId = ?)
       ORDER BY sv.mssv ASC
-    `, [maDe || '', maLop]);
+    `, [maDe || '', maLop, req.user.accountId]);
 
     res.json({
       success: true,
@@ -113,10 +113,13 @@ router.post('/luu', async (req, res) => {
       });
     }
 
+    const lop = await get('SELECT maLop FROM Lop WHERE maLop = ? AND accountId = ?', [maLop, req.user.accountId]);
+    if (!lop) return res.status(404).json({ success: false, message: 'Lớp không thuộc tài khoản.' });
+
     // Kiểm tra đề thi tồn tại
-    const deThi = await get('SELECT * FROM DeThi WHERE maDe = ?', [maDe]);
+    const deThi = await get('SELECT * FROM DeThi WHERE maDe = ? AND accountId = ?', [maDe, req.user.accountId]);
     if (!deThi) {
-      return res.status(404).json({ success: false, message: `Đề thi '${maDe}' không tồn tại!` });
+      return res.status(404).json({ success: false, message: `Đề thi '${maDe}' không tồn tại trong tài khoản.` });
     }
 
     // Kiểm tra dữ liệu từng sinh viên trước khi lưu
@@ -127,6 +130,8 @@ router.post('/luu', async (req, res) => {
         continue;
       }
 
+      const student = await get('SELECT mssv FROM SinhVien WHERE mssv = ? AND maLop = ?', [item.mssv, maLop]);
+      if (!student) return res.status(400).json({ success: false, message: `MSSV ${item.mssv} không thuộc lớp đã chọn.` });
       const diemNum = Number(item.diemSo);
       const checkResult = kiemTraDiemQD3(diemNum);
       if (!checkResult.isValid) {
@@ -187,6 +192,8 @@ router.post('/luu', async (req, res) => {
 router.delete('/:maDe/:mssv', async (req, res) => {
   try {
     const { maDe, mssv } = req.params;
+    const owned = await get('SELECT maDe FROM DeThi WHERE maDe = ? AND accountId = ?', [maDe, req.user.accountId]);
+    if (!owned) return res.status(404).json({ success: false, message: 'Không tìm thấy đề thi trong tài khoản.' });
     await run('DELETE FROM KetQuaThi WHERE maDe = ? AND mssv = ?', [maDe, mssv]);
     res.json({ success: true, message: `Đã xóa kết quả thi của sinh viên ${mssv} trong đề ${maDe}!` });
   } catch (err) {

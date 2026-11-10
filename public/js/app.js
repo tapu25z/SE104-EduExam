@@ -1,6 +1,6 @@
 /**
  * EduExam Application Controller
- * Quản lý Navigation, Toast Notifications, Confirm Dialog, Dashboard Data & Hồ sơ Đồ án SE104
+ * Quản lý Navigation, Toast Notifications, Confirm Dialog, Dashboard Data & Thông số Hệ thống
  */
 
 class AppController {
@@ -8,14 +8,24 @@ class AppController {
     this.currentTab = 'dashboard';
     this.monHocs = [];
     this.lops = [];
+    this.user = null;
+    this.token = localStorage.getItem('eduexam-token') || '';
+    const nativeFetch = window.fetch.bind(window);
+    window.fetch = (input, init = {}) => {
+      const url = typeof input === 'string' ? input : input.url;
+      if (!url.startsWith('/api/') || url.startsWith('/api/auth/login')) return nativeFetch(input, init);
+      const headers = new Headers(init.headers || (input instanceof Request ? input.headers : undefined));
+      if (this.token) headers.set('Authorization', `Bearer ${this.token}`);
+      return nativeFetch(input, { ...init, headers }).then(response => {
+        if (response.status === 401 && !url.startsWith('/api/auth/')) this.logout();
+        return response;
+      });
+    };
     this.init();
   }
 
   async init() {
     console.log('🚀 Khởi động hệ thống EduExam...');
-    await this.taiMetadata();
-    await this.taiDashboardStats();
-
     // Lắng nghe phím ESC để đóng modal
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
@@ -27,6 +37,194 @@ class AppController {
         this.closeConfirmModal();
       }
     });
+    if (this.token) {
+      const res = await fetch('/api/auth/me');
+      const result = await res.json().catch(() => ({}));
+      if (result.success) await this.enterApp(result.data);
+      else {
+        this.token = '';
+        localStorage.removeItem('eduexam-token');
+        window.location.replace('/login');
+      }
+    } else {
+      window.location.replace('/login');
+    }
+  }
+
+  showLoginError(msg) {
+    const error = document.getElementById('login-error');
+    const errorText = document.getElementById('login-error-text');
+    if (errorText) errorText.textContent = msg;
+    else if (error) error.textContent = msg;
+    if (error) {
+      error.classList.remove('hidden');
+      error.classList.remove('animate-shake');
+      void error.offsetWidth;
+      error.classList.add('animate-shake');
+    }
+  }
+
+  hideLoginError() {
+    const error = document.getElementById('login-error');
+    if (error) error.classList.add('hidden');
+  }
+
+  togglePasswordVisibility(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+    if (!input) return;
+    if (input.type === 'password') {
+      input.type = 'text';
+      if (icon) {
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      }
+    } else {
+      input.type = 'password';
+      if (icon) {
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+  }
+
+  switchAuthTab(tab) {
+    const formLogin = document.getElementById('form-login');
+    const formRegister = document.getElementById('form-register');
+    const tabLogin = document.getElementById('auth-tab-login');
+    const tabRegister = document.getElementById('auth-tab-register');
+    this.hideLoginError();
+
+    if (tab === 'login') {
+      if (formLogin) formLogin.classList.remove('hidden');
+      if (formRegister) formRegister.classList.add('hidden');
+      if (tabLogin) {
+        tabLogin.className = 'px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-900 bg-white shadow-sm transition-all cursor-pointer';
+      }
+      if (tabRegister) {
+        tabRegister.className = 'px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-500 hover:text-slate-800 transition-all cursor-pointer';
+      }
+    } else {
+      if (formLogin) formLogin.classList.add('hidden');
+      if (formRegister) formRegister.classList.remove('hidden');
+      if (tabLogin) {
+        tabLogin.className = 'px-5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-slate-500 hover:text-slate-800 transition-all cursor-pointer';
+      }
+      if (tabRegister) {
+        tabRegister.className = 'px-5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-900 bg-white shadow-sm transition-all cursor-pointer';
+      }
+    }
+  }
+
+  quickFillDemo(username, password, autoLogin = false) {
+    this.switchAuthTab('login');
+    const uInput = document.getElementById('login-username');
+    const pInput = document.getElementById('login-password');
+    if (uInput) uInput.value = username;
+    if (pInput) pInput.value = password;
+    this.hideLoginError();
+    if (autoLogin) {
+      this.login({ preventDefault: () => {} });
+    }
+  }
+
+  showForgotHint() {
+    alert('💡 Thông tin đăng nhập thử nghiệm:\n\n• Giảng viên: giangvien (mật khẩu: gv123456)\n• Quản trị viên: admin (mật khẩu: admin123)\n\nNếu quên mật khẩu tài khoản cá nhân, vui lòng liên hệ Ban Quản trị hệ thống (admin) để được cấp lại.');
+  }
+
+  async login(event) {
+    if (event?.preventDefault) event.preventDefault();
+    this.hideLoginError();
+    const btn = document.getElementById('login-submit-btn');
+    const origHtml = btn ? btn.innerHTML : '';
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span>Đang xác thực...</span> <i class="fa-solid fa-circle-notch fa-spin text-sm"></i>';
+    }
+
+    const tenDangNhap = document.getElementById('login-username')?.value?.trim();
+    const matKhau = document.getElementById('login-password')?.value;
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tenDangNhap, matKhau })
+      });
+      const result = await res.json();
+      if (!result.success) {
+        this.showLoginError(result.message || 'Tên đăng nhập hoặc mật khẩu không đúng.');
+        if (btn) { btn.disabled = false; btn.innerHTML = origHtml; }
+        return;
+      }
+      this.token = result.token;
+      localStorage.setItem('eduexam-token', this.token);
+      this.toast(`Đăng nhập thành công! Chào mừng ${result.user.hoTen}`, 'success');
+      await this.enterApp(result.user);
+    } catch (_err) {
+      this.showLoginError('Không kết nối được máy chủ.');
+      if (btn) { btn.disabled = false; btn.innerHTML = origHtml; }
+    }
+  }
+
+  async register(event) {
+    if (event?.preventDefault) event.preventDefault();
+    this.hideLoginError();
+    const btn = document.getElementById('register-submit-btn');
+    const origHtml = btn ? btn.innerHTML : '';
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span>Đang tạo tài khoản...</span> <i class="fa-solid fa-circle-notch fa-spin text-sm"></i>';
+    }
+
+    const hoTen = document.getElementById('reg-fullname')?.value?.trim();
+    const tenDangNhap = document.getElementById('reg-username')?.value?.trim();
+    const matKhau = document.getElementById('reg-password')?.value;
+
+    try {
+      const res = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ hoTen, tenDangNhap, matKhau })
+      });
+      const result = await res.json();
+      if (!result.success) {
+        this.showLoginError(result.message || 'Không thể tạo tài khoản.');
+        if (btn) { btn.disabled = false; btn.innerHTML = origHtml; }
+        return;
+      }
+      this.token = result.token;
+      localStorage.setItem('eduexam-token', this.token);
+      this.toast(`Tạo tài khoản thành công! Chào mừng ${result.user.hoTen}`, 'success');
+      await this.enterApp(result.user);
+    } catch (_err) {
+      this.showLoginError('Không thể kết nối đến máy chủ.');
+      if (btn) { btn.disabled = false; btn.innerHTML = origHtml; }
+    }
+  }
+
+  async enterApp(user) {
+    this.user = user;
+    const cleanName = (user.hoTen || '').replace(/\s*demo\s*/gi, '').trim() || (user.vaiTro === 'admin' ? 'Quản trị viên' : 'Giảng viên');
+    document.getElementById('login-screen').classList.add('hidden');
+    document.getElementById('user-name').textContent = cleanName;
+    const dashboardName = document.getElementById('dashboard-name');
+    if (dashboardName) dashboardName.textContent = cleanName;
+    const title = document.getElementById('topbar-title');
+    if (title) title.textContent = 'Tổng quan';
+    document.querySelectorAll('.mobile-bottom-nav button[data-tab]').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === 'dashboard'));
+    document.getElementById('user-role').textContent = user.vaiTro === 'admin' ? 'Quản trị viên' : 'Giảng viên';
+    document.querySelectorAll('[data-admin-only]').forEach(el => el.classList.toggle('hidden', user.vaiTro !== 'admin'));
+    await this.taiMetadata();
+    await this.taiDashboardStats();
+  }
+
+  async logout() {
+    try { await fetch('/api/auth/logout', {method:'POST'}); } catch (_err) {}
+    this.token = '';
+    this.user = null;
+    localStorage.removeItem('eduexam-token');
+    window.location.href = '/login';
   }
 
   async taiMetadata() {
@@ -53,12 +251,13 @@ class AppController {
       document.getElementById('ch-filter-mon'),
       document.getElementById('modal-ch-mon'),
       document.getElementById('modal-dt-mon'),
-      document.getElementById('ct-select-mon')
+      document.getElementById('ct-select-mon'),
+      document.getElementById('tc-mon')
     ];
 
     selects.forEach(sel => {
       if (!sel) return;
-      const isFilter = sel.id.includes('filter');
+      const isFilter = sel.id.includes('filter') || sel.id === 'tc-mon';
       const currentVal = sel.value;
       sel.innerHTML = isFilter ? '<option value="">Tất cả môn học</option>' : '<option value="">-- Chọn môn học --</option>';
 
@@ -74,6 +273,8 @@ class AppController {
   }
 
   switchTab(tabName) {
+    document.getElementById('mobile-more-menu')?.classList.add('hidden');
+    if (tabName === 'taikhoan' && this.user?.vaiTro !== 'admin') return this.toast('Chỉ quản trị viên được quản lý tài khoản.', 'error');
     this.currentTab = tabName;
 
     // Cập nhật sidebar active item
@@ -85,14 +286,18 @@ class AppController {
         btn.classList.remove('active');
       }
     });
+    document.querySelectorAll('.mobile-bottom-nav button[data-tab]').forEach(btn => btn.classList.toggle('active', btn.dataset.tab === tabName));
 
     // Cập nhật tiêu đề Topbar
     const titles = {
-      'dashboard': 'Tổng quan hệ thống',
-      'cauhoi': 'Ngân hàng câu hỏi',
-      'dethi': 'Quản lý đề thi',
-      'chamthi': 'Chấm điểm & Sổ điểm',
-      'baocao': 'Thống kê & Báo cáo khảo thí'
+      'dashboard': 'Tổng quan',
+      'cauhoi': 'Câu hỏi',
+      'dethi': 'Đề thi',
+      'chamthi': 'Chấm thi',
+      'tracuu': 'Tra cứu đề thi',
+      'lophoc': 'Lớp học',
+      'taikhoan': 'Tài khoản',
+      'baocao': 'Báo cáo'
     };
     const titleEl = document.getElementById('topbar-title');
     if (titleEl) {
@@ -117,9 +322,20 @@ class AppController {
       window.uc02?.taiDanhSach();
     } else if (tabName === 'chamthi') {
       window.uc03?.khoiTao();
+    } else if (tabName === 'tracuu') {
+      window.uc04?.khoiTao();
+    } else if (tabName === 'lophoc') {
+      window.uc07?.load();
+    } else if (tabName === 'taikhoan' && this.user?.vaiTro === 'admin') {
+      window.uc06?.load();
     } else if (tabName === 'baocao') {
       window.uc05?.khoiTao();
     }
+  }
+
+  toggleMobileMenu() {
+    const menu = document.getElementById('mobile-more-menu');
+    if (menu) menu.classList.toggle('hidden');
   }
 
   async taiDashboardStats() {
@@ -221,25 +437,7 @@ class AppController {
   }
 
   async resetSampleData() {
-    this.confirm(
-      'Khôi phục dữ liệu mẫu?',
-      'Hệ thống sẽ tải lại dữ liệu mẫu chuẩn (môn học, ngân hàng câu hỏi, đề thi và bảng điểm).',
-      async () => {
-        try {
-          const res = await fetch('/api/metadata/reset-data', { method: 'POST' });
-          const result = await res.json();
-          if (result.success) {
-            this.toast(result.message, 'success');
-            await this.taiMetadata();
-            this.switchTab(this.currentTab);
-          } else {
-            this.toast('Lỗi: ' + result.message, 'error');
-          }
-        } catch (err) {
-          this.toast('Không thể nạp lại dữ liệu: ' + err.message, 'error');
-        }
-      }
-    );
+    this.toast('Dữ liệu được phân lập theo tài khoản; chức năng đặt lại toàn bộ dữ liệu đã tắt để tránh xóa dữ liệu của giảng viên khác.', 'info');
   }
 
   toast(message, type = 'info') {

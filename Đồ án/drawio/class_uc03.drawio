@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mxfile host="Electron" agent="Antigravity" version="21.0.0" type="device">
+  <diagram id="Hình_2_28_Biểu_đồ_lớp_UC03" name="Hình 2.28 Biểu đồ lớp UC03">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="b_hdr" value="&amp;laquo;boundary&amp;raquo;&lt;br&gt;&lt;b&gt;FormGhiNhanChamThi&lt;/b&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=42;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;html=1;fillColor=#EFF6FF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="60" y="70" width="220" height="266.0" />
+        </mxCell>
+        <mxCell id="b_att" value="+ cbDeThi: Combobox&lt;br&gt;+ cbLopHoc: Combobox&lt;br&gt;+ tableBangDiem: TableView&lt;br&gt;+ txtGhiChu: Textbox&lt;br&gt;+ btnLuuBangDiem: Button" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;fontFamily=Times New Roman;fontSize=11;fontColor=#000000;" parent="b_hdr" vertex="1">
+          <mxGeometry as="geometry" x="0" y="42.0" width="220" height="105" />
+        </mxCell>
+        <mxCell id="b_mth" value="+ onChonLop()&lt;br&gt;+ onNhapDiem()&lt;br&gt;+ onLuuClick()" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;fontFamily=Times New Roman;fontSize=11;fontColor=#000000;" parent="b_hdr" vertex="1">
+          <mxGeometry as="geometry" x="0" y="147.0" width="220" height="115" />
+        </mxCell>
+        <mxCell id="c_hdr" value="&amp;laquo;control&amp;raquo;&lt;br&gt;&lt;b&gt;ChamThiController&lt;/b&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=42;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;html=1;fillColor=#EFF6FF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="360" y="70" width="230" height="266.0" />
+        </mxCell>
+        <mxCell id="c_att" value="- maDe: String&lt;br&gt;- maLop: String&lt;br&gt;- dsKetQua: List&lt;KetQuaThi&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;fontFamily=Times New Roman;fontSize=11;fontColor=#000000;" parent="c_hdr" vertex="1">
+          <mxGeometry as="geometry" x="0" y="42.0" width="230" height="95" />
+        </mxCell>
+        <mxCell id="c_mth" value="+ taiDanhSachSinhVien(lop)&lt;br&gt;+ kiemTraThangDiem(diem)&lt;br&gt;+ quyDoiDiemChu(diem)&lt;br&gt;+ luuKetQuaCham()" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;fontFamily=Times New Roman;fontSize=11;fontColor=#000000;" parent="c_hdr" vertex="1">
+          <mxGeometry as="geometry" x="0" y="137.0" width="230" height="125" />
+        </mxCell>
+        <mxCell id="l_bc" value="1" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=none;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1" source="b_hdr" target="c_hdr">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e0_hdr" value="&amp;laquo;entity&amp;raquo;&lt;br&gt;&lt;b&gt;KetQuaThi&lt;/b&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=42;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;html=1;fillColor=#EFF6FF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="670" y="70" width="230" height="226.0" />
+        </mxCell>
+        <mxCell id="e0_att" value="- id: UUID&lt;br&gt;- maDe: String&lt;br&gt;- mssv: String&lt;br&gt;- diemSo: Float&lt;br&gt;- diemChu: String&lt;br&gt;- ghiChu: String" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;fontFamily=Times New Roman;fontSize=11;fontColor=#000000;" parent="e0_hdr" vertex="1">
+          <mxGeometry as="geometry" x="0" y="42.0" width="230" height="95" />
+        </mxCell>
+        <mxCell id="e0_mth" value="+ luuKetQua()&lt;br&gt;+ capNhatDiem()&lt;br&gt;+ layBangDiemLop()" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;fontFamily=Times New Roman;fontSize=11;fontColor=#000000;" parent="e0_hdr" vertex="1">
+          <mxGeometry as="geometry" x="0" y="137.0" width="230" height="85" />
+        </mxCell>
+        <mxCell id="l_ce_0" value="1..*" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=none;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1" source="c_hdr" target="e0_hdr">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+        <mxCell id="e1_hdr" value="&amp;laquo;entity&amp;raquo;&lt;br&gt;&lt;b&gt;SinhVien&lt;/b&gt;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=42;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;html=1;fillColor=#EFF6FF;strokeColor=#000000;fontColor=#000000;fontFamily=Times New Roman;fontSize=11;" parent="1" vertex="1">
+          <mxGeometry as="geometry" x="670" y="310" width="230" height="226.0" />
+        </mxCell>
+        <mxCell id="e1_att" value="- mssv: String&lt;br&gt;- hoTen: String&lt;br&gt;- maLop: String" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;fontFamily=Times New Roman;fontSize=11;fontColor=#000000;" parent="e1_hdr" vertex="1">
+          <mxGeometry as="geometry" x="0" y="42.0" width="230" height="95" />
+        </mxCell>
+        <mxCell id="e1_mth" value="+ layTheoLop()" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=6;spacingRight=4;overflow=hidden;rotatable=0;fontFamily=Times New Roman;fontSize=11;fontColor=#000000;" parent="e1_hdr" vertex="1">
+          <mxGeometry as="geometry" x="0" y="137.0" width="230" height="85" />
+        </mxCell>
+        <mxCell id="l_ce_1" value="1..*" style="edgeStyle=orthogonalEdgeStyle;html=1;strokeColor=#000000;endArrow=none;fontColor=#000000;fontFamily=Times New Roman;fontSize=12;" parent="1" edge="1" source="c_hdr" target="e1_hdr">
+          <mxGeometry as="geometry" relative="1" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,5 +1,16 @@
 -- SCHEMA CƠ SỞ DỮ LIỆU ĐỒ ÁN SE104 - NHÓM 30
--- Khớp 100% với Biểu đồ thực thể liên kết (ERD - Hình 2.18) và Biểu đồ lớp phân tích (Hình 2.17)
+-- Lược đồ vận hành ứng dụng EduExam (bao gồm xác thực, phạm vi dữ liệu và phân điểm câu hỏi)
+
+-- Tài khoản quản trị và giảng viên
+CREATE TABLE IF NOT EXISTS TaiKhoan (
+    accountId INTEGER PRIMARY KEY AUTOINCREMENT,
+    tenDangNhap TEXT NOT NULL UNIQUE,
+    matKhauHash TEXT NOT NULL,
+    hoTen TEXT NOT NULL,
+    vaiTro TEXT NOT NULL CHECK (vaiTro IN ('admin', 'giangvien')) DEFAULT 'giangvien',
+    trangThai TEXT NOT NULL CHECK (trangThai IN ('active', 'disabled')) DEFAULT 'active',
+    ngayTao TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 
 -- 1. Bảng Môn Học (MonHoc)
 CREATE TABLE IF NOT EXISTS MonHoc (
@@ -13,7 +24,10 @@ CREATE TABLE IF NOT EXISTS CauHoi (
     maMon VARCHAR(20) NOT NULL,
     doKho VARCHAR(20) NOT NULL CHECK (doKho IN ('Dễ', 'Trung Bình', 'Phức Tạp', 'Khó')),
     noiDung TEXT NOT NULL,
-    FOREIGN KEY (maMon) REFERENCES MonHoc(maMon) ON UPDATE CASCADE ON DELETE RESTRICT
+    dapAn TEXT NOT NULL DEFAULT '',
+    accountId INTEGER,
+    FOREIGN KEY (maMon) REFERENCES MonHoc(maMon) ON UPDATE CASCADE ON DELETE RESTRICT,
+    FOREIGN KEY (accountId) REFERENCES TaiKhoan(accountId) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 -- 3. Bảng Đề Thi (DeThi) - Liên kết với MonHoc (QĐ2)
@@ -24,7 +38,9 @@ CREATE TABLE IF NOT EXISTS DeThi (
     namHoc VARCHAR(20) NOT NULL,
     ngayThi DATE NOT NULL,
     thoiLuong INTEGER NOT NULL CHECK (thoiLuong >= 30 AND thoiLuong <= 180),
-    FOREIGN KEY (maMon) REFERENCES MonHoc(maMon) ON UPDATE CASCADE ON DELETE RESTRICT
+    accountId INTEGER,
+    FOREIGN KEY (maMon) REFERENCES MonHoc(maMon) ON UPDATE CASCADE ON DELETE RESTRICT,
+    FOREIGN KEY (accountId) REFERENCES TaiKhoan(accountId) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 -- 4. Bảng Thực thể kết hợp Đề Thi - Câu Hỏi (DeThi_CauHoi)
@@ -32,6 +48,7 @@ CREATE TABLE IF NOT EXISTS DeThi (
 CREATE TABLE IF NOT EXISTS DeThi_CauHoi (
     maDe VARCHAR(20) NOT NULL,
     maCauHoi VARCHAR(20) NOT NULL,
+    diemToiDa REAL NOT NULL DEFAULT 0 CHECK (diemToiDa >= 0),
     PRIMARY KEY (maDe, maCauHoi),
     FOREIGN KEY (maDe) REFERENCES DeThi(maDe) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (maCauHoi) REFERENCES CauHoi(maCauHoi) ON UPDATE CASCADE ON DELETE RESTRICT
@@ -40,7 +57,9 @@ CREATE TABLE IF NOT EXISTS DeThi_CauHoi (
 -- 5. Bảng Lớp (Lop)
 CREATE TABLE IF NOT EXISTS Lop (
     maLop VARCHAR(20) PRIMARY KEY,
-    tenLop VARCHAR(100) NOT NULL
+    tenLop VARCHAR(100) NOT NULL,
+    accountId INTEGER,
+    FOREIGN KEY (accountId) REFERENCES TaiKhoan(accountId) ON UPDATE CASCADE ON DELETE RESTRICT
 );
 
 -- 6. Bảng Sinh Viên (SinhVien) - Thuộc về 1 Lớp

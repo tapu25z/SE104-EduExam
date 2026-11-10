@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const { exec, run, query } = require('./db');
+const { exec, run, query, get } = require('./db');
+const crypto = require('crypto');
 
 async function initDatabase() {
   const schemaPath = path.join(__dirname, 'schema.sql');
@@ -9,8 +10,61 @@ async function initDatabase() {
   console.log('✅ Khởi tạo các bảng CSDL SQLite thành công!');
 }
 
+async function migrateDatabase() {
+  await exec(`
+    CREATE TABLE IF NOT EXISTS TaiKhoan (
+      accountId INTEGER PRIMARY KEY AUTOINCREMENT,
+      tenDangNhap TEXT NOT NULL UNIQUE,
+      matKhauHash TEXT NOT NULL,
+      hoTen TEXT NOT NULL,
+      vaiTro TEXT NOT NULL CHECK (vaiTro IN ('admin', 'giangvien')) DEFAULT 'giangvien',
+      trangThai TEXT NOT NULL CHECK (trangThai IN ('active', 'disabled')) DEFAULT 'active',
+      ngayTao TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+  const hasColumn = async (table, column) => (await query(`PRAGMA table_info(${table})`)).some(row => row.name === column);
+  for (const [table, column, type] of [
+    ['CauHoi', 'dapAn', "TEXT NOT NULL DEFAULT ''"],
+    ['CauHoi', 'accountId', 'INTEGER'],
+    ['DeThi', 'accountId', 'INTEGER'],
+    ['Lop', 'accountId', 'INTEGER'],
+    ['DeThi_CauHoi', 'diemToiDa', 'REAL NOT NULL DEFAULT 0']
+  ]) {
+    if (!(await hasColumn(table, column))) await exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${type}`);
+  }
+  const hash = password => {
+    const salt = crypto.randomBytes(16).toString('hex');
+    return `${salt}:${crypto.scryptSync(password, salt, 64).toString('hex')}`;
+  };
+  let teacher = await get("SELECT * FROM TaiKhoan WHERE tenDangNhap = 'giangvien'");
+  if (!teacher) {
+    await run('INSERT INTO TaiKhoan (tenDangNhap, matKhauHash, hoTen, vaiTro) VALUES (?, ?, ?, ?)', ['giangvien', hash('gv123456'), 'Giảng viên', 'giangvien']);
+    teacher = await get("SELECT * FROM TaiKhoan WHERE tenDangNhap = 'giangvien'");
+  }
+  if (!(await get("SELECT accountId FROM TaiKhoan WHERE tenDangNhap = 'admin'"))) {
+    await run('INSERT INTO TaiKhoan (tenDangNhap, matKhauHash, hoTen, vaiTro) VALUES (?, ?, ?, ?)', ['admin', hash('admin123'), 'Quản trị viên', 'admin']);
+  }
+  await run('UPDATE CauHoi SET accountId = ? WHERE accountId IS NULL', [teacher.accountId]);
+  await run('UPDATE DeThi SET accountId = ? WHERE accountId IS NULL', [teacher.accountId]);
+  await run('UPDATE Lop SET accountId = ? WHERE accountId IS NULL', [teacher.accountId]);
+  const zeroPointExams = await query(`SELECT dtch.maDe, COUNT(*) AS n FROM DeThi_CauHoi dtch
+    JOIN DeThi dt ON dt.maDe = dtch.maDe WHERE dtch.diemToiDa = 0 GROUP BY dtch.maDe`);
+  for (const row of zeroPointExams) {
+    const questions = await query('SELECT maCauHoi FROM DeThi_CauHoi WHERE maDe = ? ORDER BY maCauHoi', [row.maDe]);
+    const each = Math.floor((10 / questions.length) * 2) / 2;
+    let remaining = 10;
+    for (let i = 0; i < questions.length; i++) {
+      const score = i === questions.length - 1 ? remaining : each;
+      remaining -= score;
+      await run('UPDATE DeThi_CauHoi SET diemToiDa = ? WHERE maDe = ? AND maCauHoi = ?', [score, row.maDe, questions[i].maCauHoi]);
+    }
+  }
+  await exec('CREATE INDEX IF NOT EXISTS idx_cauhoi_account ON CauHoi(accountId); CREATE INDEX IF NOT EXISTS idx_dethi_account ON DeThi(accountId); CREATE INDEX IF NOT EXISTS idx_lop_account ON Lop(accountId);');
+}
+
 async function seedDatabase(force = false) {
   await initDatabase();
+  await migrateDatabase();
 
   const countRow = await query('SELECT COUNT(*) as count FROM MonHoc');
   if (countRow[0].count > 0 && !force) {
@@ -211,6 +265,7 @@ async function seedDatabase(force = false) {
     ]);
   }
 
+  await migrateDatabase();
   console.log('✅ Đã nạp thành công bộ dữ liệu mẫu chuẩn theo Báo cáo Stage 1!');
 }
 
